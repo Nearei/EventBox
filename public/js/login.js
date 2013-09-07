@@ -27,5 +27,5 @@
   }(document));
 
   function loginSuccess (){
-	window.location.href = "main.html";
+	window.location.href = "dashboard";
   }

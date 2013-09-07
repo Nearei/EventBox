@@ -19,11 +19,17 @@ import os
 from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 
-class MainHandler(webapp2.RequestHandler):
+class LoginHandler(webapp2.RequestHandler):
     def get(self):
 	    path = os.path.join(os.path.dirname(__file__), 'public/login.html')
 	    self.response.out.write(template.render(path, {}))
 
+class DashboardHandler(webapp2.RequestHandler):
+    def get(self):
+	    path = os.path.join(os.path.dirname(__file__), 'public/dashboard.html')
+	    self.response.out.write(template.render(path, {}))
+
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', LoginHandler),
+    ('/dashboard', DashboardHandler)
 ], debug=True)
