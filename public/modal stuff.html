@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="/plugins/bootstrap/css/bootstrap-responsive.min.css" media="all">
+	<link rel="stylesheet" type="text/css" href="/plugins/bootstrap/css/bootstrap.min.css" media="all">
+	<link rel="stylesheet" type="text/css" href="libraries/css/bootstrap-datetimepicker.min.css" media="all">
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="libraries/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+	
+	<style type="text/css">
+	html {
+		width: 100%;
+		height: 100%;
+		overflow-x: hidden; 
+	}
+	body {
+		background-repeat:no-repeat;
+		background-position:center;
+	}
+	.modal {
+		height:800px;
+		width:800px;
+	}
+	.modal-body {
+		height:100%;
+	}
+	</style>
+</head>
+
+<body>
+	<div class="container-fluid">
+	<a href="#locmodal" role="button" class="btn" data-toggle="modal">Loc Modal</a>
+	<a href="#timemodal" role="button" class="btn" data-toggle="modal">Time Modal</a>
+	
+	<div class="modal hide fade" id="locmodal">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3>Modal header</h3>
+	  </div>
+	  <div class="modal-body">
+		<div id="modal-specific" style='height:100%'>
+			<div id='map-canvas' style='height:700px;width=100%'></div>
+			<form name="input" onSubmit="showLocation();">
+				<input type="text" id="place">
+				<input type="submit" value="Change Location">
+			</form>
+		</div>
+		<h1 id="polltitle1"></h1>
+		<div id="poll1" style="height:80%;width:80%">
+		</div>
+	  </div>
+	  <div class="modal-footer">
+		<a href="#" class="btn">Close</a>
+		<a href="#" class="btn btn-primary">Save changes</a>
+	  </div>
+	</div>
+	
+	<div class="modal hide fade" id="timemodal">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3>Modal header</h3>
+	  </div>
+	  <div class="modal-body">
+		<div id="modal-specific">
+			<h1 id="current-time"></h1>
+			<div class="well">
+			  <div id="datetimepicker2" class="input-append">
+				<input data-format="MM/dd/yyyy HH:mm:ss PP" type="text"></input>
+				<span class="add-on">
+				  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+				  </i>
+				</span>
+			  </div>
+			</div>
+		</div>
+		<h1 id="polltitle2"></h1>
+		<div id="poll2" style="height:80%;width:80%">
+		</div>
+	  </div>
+	  <div class="modal-footer">
+		<a href="#" class="btn">Close</a>
+		<a href="#" class="btn btn-primary">Save changes</a>
+	  </div>
+	</div>
+	
+	<script src= "/js/mockeventmain.js"></script>
+	<script src = "js/poll.js"></script>
+	<script src = "js/modal.js"></script>
+</body>
