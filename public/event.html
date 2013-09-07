@@ -8,12 +8,15 @@
 	<link rel="stylesheet" type="text/css" href="/plugins/bootstrap/css/bootstrap-responsive.min.css" media="all">
 	<link rel="stylesheet" type="text/css" href="/plugins/bootstrap/css/bootstrap.min.css" media="all">
 	<link rel="stylesheet" type="text/css" href="/plugins/ducksboard-gridster.js-ef626f8/dist/jquery.gridster.css">
+	<link rel="stylesheet" type="text/css" href="/plugins/bootstrap/css/bootstrap-datetimepicker.min.css" media="all">
 	<link rel="stylesheet" type="text/css" href="/css/TheKevinJeongExperience.css">
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/plugins/moment.min.js"></script>
 	<script type="text/javascript" src="/plugins/ducksboard-gridster.js-ef626f8/dist/jquery.gridster.min.js"></script>
+	<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 
 	<script type="text/javascript" src="/plugins/angular.min.js"></script>
 	<script type="text/javascript" src="/js/app.js"></script>
@@ -25,9 +28,7 @@
 			width: 100%;
 			height: 100%;
 			/*overflow: hidden; */
-		}
-		.gridster div {
-			border:1px solid black;
+			overflow-y: scroll;
 		}
 		.gridster ul {
 			list-style-type: none;
@@ -45,18 +46,18 @@
 			box-shadow: 0 5px 10px rgba(0,0,0,0.3);
 			z-index: 50;
 		}
-		#header-content {
+		#event-page-header-content {
 			width: 1000px;
 			margin: 0 auto;
 			overflow: hidden;
 		}
-		#header-text-event {
+		#event-page-header-event-text {
 			float: left;
 			padding-top:7px;
 			font-size: 25px;
 			color:#36609A;
 		}
-		#header-text-box {
+		#event-page-header-box-test {
 			float: left;
 			padding-top:7px;
 			font-size: 25px;
@@ -64,16 +65,32 @@
 			color:#88ABE6;
 		}
 		body {
+			background: url('/img/event_background.png') center center fixed;
+			background-repeat: repeat;
 			padding:0;
 			font-family:"Open Sans", sans-serif;
 		}
 		.event-card {
-			background-color:red;
+			background: url('/img/wild_flowers.png') center center;
+			background-repeat: repeat;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			border-radius: 4px;
 			width:100%;
 			height:100%;
 		}
+		.event-card a {
+			position:absolute;
+			bottom:0;
+			right:0;
+			display:none;
+		}
+		.event-card:hover .btn{
+			display:block;
+		}
 		.event-wrapper {
-			background:#004756;
+			background: url('/img/event_background.png') center center fixed;
+			background-repeat: repeat;
 			margin:auto;
 			position:absolute;
 			top:35px;
@@ -98,12 +115,15 @@
 </head>
 
 <body ng-controller="appCtrl">
+	<!-- event page header -->
 	<header>
-		<div id="header-content">
-			<div id="header-text-event">EVENT</div>
-			<div id="header-text-box">Box</div>
+		<div id="event-page-header-content">
+			<div id="event-page-header-event-text">EVENT</div>
+			<div id="event-page-header-box-test">Box</div>
 		</div>
 	</header>
+
+	<!-- event -->
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span12">
@@ -112,7 +132,7 @@
 						<ul>
 							<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
 								<div id="event-header" class="event-card">
-									
+									the authors classified integrable homomorphisms. It is essential to consider that theta may be non-countably negative. Recent interest in Steiner lines	has centered on examining triangles. This reduces the results of [34] to the general theory. It is not yet known whether every algebraically partial, singular manifold is meromorphic, although [26] does address the issue of solvability. fdsfdsfds fdsfds fdsfds fdsfdsf sdfdsf sdfsdf
 								</div>
 							</li>
 						    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
@@ -122,10 +142,16 @@
 						    </li>
 						    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
 						    	<div id="event-location" class="event-card">
+						    		<a href="#location-modal" role="button" class="btn" data-toggle="modal">
+						    			<i class="icon-edit"></i>
+						    		</a>
 						    	</div>
 						    </li>
 						    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
 						    	<div id="event-time" class="event-card">
+						    		<a href="#time-modal" role="button" class="btn" data-toggle="modal">
+						    			<i class="icon-edit"></i>
+						    		</a>
 						    	</div>
 						    </li>
 						    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
@@ -142,6 +168,64 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- location modal -->
+	<div class="modal hide fade" id="location-modal">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Modal header</h3>
+		</div>
+
+		<div class="modal-body">
+			<div id="modal-specific" style='height:100%'>
+				<div id='map-canvas' style='height:700px;width=100%'></div>
+				<form name="input" onSubmit="showLocation();">
+					<input type="text" id="place">
+					<input type="submit" value="Change Location">
+				</form>
+			</div>
+			<h1 id="poll-title-1"></h1>
+			<div id="poll-1" style="height:80%;width:80%"></div>
+		</div>
+
+		<div class="modal-footer">
+			<a href="#" class="btn">Close</a>
+			<a href="#" class="btn btn-primary">Save changes</a>
+		</div>
+	</div>
+
+	<!-- time modal -->
+	<div class="modal hide fade" id="time-modal">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Modal header</h3>
+		</div>
+
+		<div class="modal-body">
+			<div id="modal-specific">
+				<h1 id="current-time"></h1>
+				<div class="well">
+					<div id="date-time-picker" class="input-append">
+						<input data-format="MM/dd/yyyy HH:mm:ss PP" type="text"></input>
+						<span class="add-on">
+							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+			<h1 id="poll-title-2"></h1>
+			<div id="poll-2" style="height:80%;width:80%"></div>
+		</div>
+
+		<div class="modal-footer">
+			<a href="#" class="btn">Close</a>
+			<a href="#" class="btn btn-primary">Save changes</a>
+		</div>
+	</div>
+
+	<script src = "/js/mockeventmain.js"></script>
+	<script src = "/js/poll.js"></script>
+	<script src = "/js/modal.js"></script>
 </body>
 
 </html>

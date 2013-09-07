@@ -32,7 +32,7 @@ function appCtrl ($scope, $location, ndb) {
 
 					if ($location.search()['e']) {
 						ndb.getEvent($location.search()['e']).then(function(response) {
-							//$scope.event_data = response;
+							$scope.event_data = response;
 						});
 					} else {
 

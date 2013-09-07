@@ -59,20 +59,25 @@ class EventApiHandler(webapp2.RequestHandler):
 		for user in result.people:
 			output["people"].append({
 				"user": user.name,
-				"fb_id": user.id
+				"id": user.fb_id
 				})
 
-		self.response.out.write(json.dumps(result))
+		self.response.out.write(json.dumps(output))
 
 	def post(self):
 		data = json.loads(self.request.body)
 		result = ebModels.addEvent(data)
 		self.response.out.write(result)
 
+class SpinnerHandler(webapp2.RequestHandler):
+    def get(self):
+	    path = os.path.join(os.path.dirname(__file__), 'public/spinner.html')
+	    self.response.out.write(template.render(path, {}))
 
 app = webapp2.WSGIApplication([
     ('/', LoginHandler),
     ('/dashboard', DashboardHandler),
     ('/event/', EventHandler),
     ('/api/event', EventApiHandler),
+    ('/spinner', SpinnerHandler)
 ], debug=True)
