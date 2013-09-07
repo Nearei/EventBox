@@ -2,9 +2,18 @@
 
 
 // application
-function appCtrl ($scope, $location) {
+function appCtrl ($scope, $location, ndb) {
 
 	$scope.user = {};
+
+	$scope.time_poll = [];
+	$scope.location_poll = [];
+	$scope.custom_polls = [];
+
+	$scope.mode = "loading";
+
+
+	$scope.event_data = {};
 
 	window.fbAsyncInit = function() {
 		FB.init({
@@ -19,12 +28,39 @@ function appCtrl ($scope, $location) {
 			if (response.authResponse) {
 				FB.api('/me', function(response) {
 					$scope.user = response;
-
-
 					console.log($scope.user);
+
+					if ($location.search()['e']) {
+						ndb.getEvent($location.search()['e']).then(function(response) {
+							//$scope.event_data = response;
+						});
+					} else {
+
+						$scope.event_data = {
+							name: 'Insert Event Name Here',
+							host_name: $scope.user.name,
+							host_fb_id: $scope.user.id,
+							description: "Insert Description Here",
+							datetime: moment().format(),
+							loc: {
+								lat: 43.451603,
+								lon: -80.492277,
+								name: 'Google Waterloo'
+							},
+							picture_url: '/img/event4.jpg',
+							people: [$scope.user],
+						};
+
+						ndb.addEvent($scope.event_data).then(function(response) {
+							$location.search("e", response);
+
+							$scope.mode="view";
+						});
+					}
 				});
 			} else {
 				console.log('User cancelled login or did not fully authorize.');
+				window.location.assign("/");
 			}
 
 		});
@@ -39,17 +75,6 @@ function appCtrl ($scope, $location) {
 		js.src = "//connect.facebook.net/en_US/all.js";
 		ref.parentNode.insertBefore(js, ref);
 	}(document));
-
-	$scope.event_data = {name: 'Insert Event Name Here',
-						 time: '11:30:00',
-						 date: 'September 13, 2013',
-						 loc: {
-						 	lat: 43.451603,
-						 	lon: -80.492277,
-						 	name: 'Google Waterloo'
-						 },
-						 picture: '/img/event1.jpg'}
- 
 
 
 	$scope.displayPictureModal = function() {
@@ -75,5 +100,22 @@ function appCtrl ($scope, $location) {
 	$scope.removeModal = function() {
 
 	}
+
+	$scope.addPollOption = function(poll_type, option) {
+		poll_type.push({
+			option : option,
+			votes : [$scope.user],
+		});
+	}
+
+	$scope.vote = function(poll_type, option) {
+		for (var i = 0; i < poll_type.length; i++) {
+			if (poll_type[i] == option && poll_type[i].votes.indexOf($scope.user) == -1) {
+				poll_type[i].votes.push($scope.user);
+			}
+		}
+	}
+
+
 
 };
