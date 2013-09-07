@@ -17,15 +17,43 @@
 	<script type="text/javascript" src="/js/controllers.js"></script>
 
 	<style type="text/css">
-	html {
+/*	html {
 		width: 100%;
 		height: 100%;
 		overflow-x: hidden; 
+	}*/
+	#event-cards-container {
+		position:absolute;
+		top:0;
+		bottom:0;
+		left:0;
+		right:0;
 	}
 	.gridster div {
 		border:1px solid black;
-		width:25%;
-		height:25%;
+	}
+	.gridster ul {
+		list-style-type: none;
+	}
+	#event-picture {
+		width:300px;
+		height:300px;
+	}
+	#event-location {
+		width:450px;
+		height:150px;
+	}
+	#event-time {
+		width:150px;
+		height:150px;
+	}
+	#event-detail {
+		width:300px;
+		height:150px;
+	}
+	#event-attendance {
+		width:150px;
+		height:300px;
 	}
 	</style>
 
@@ -44,26 +72,31 @@
 <body ng-controller="appCtrl">
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<div class"span12">
+			<div class"span12" id="event-cards-container">
 				<div class="gridster">
 				    <ul>
-				        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+				        <li data-row="1" data-col="1" data-sizex="2" data-sizey="2">
 				        	<div id="event-picture" style="background:url(/img/event1.jpg) no-repeat center">
 				        		
 				        	</div>
 				        </li>
-				        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-				        	<div id="event-time">
+				        <li data-row="1" data-col="3" data-sizex="3" data-sizey="1">
+				        	<div id="event-location" style="background:url(/img/event2.jpg) no-repeat center">
 				        		
 				        	</div>
 				        </li>
-				        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-				        	<div id="event-location">
+				        <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
+				        	<div id="event-time" style="background:url(/img/event3.jpg) no-repeat center">
 				        		
 				        	</div>
 				        </li>
-				        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-				        	<div id="event-detail">
+				        <li data-row="2" data-col="4" data-sizex="2" data-sizey="1">
+				        	<div id="event-detail" style="background:url(/img/event1.jpg) no-repeat center">
+				        		
+				        	</div>
+				        </li>
+				        <li data-row="1" data-col="6" data-sizex="1" data-sizey="2">
+				        	<div id="event-attendance" style="background:url(/img/background.jpg) no-repeat center">
 				        		
 				        	</div>
 				        </li>
