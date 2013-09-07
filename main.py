@@ -29,7 +29,13 @@ class DashboardHandler(webapp2.RequestHandler):
 	    path = os.path.join(os.path.dirname(__file__), 'public/dashboard.html')
 	    self.response.out.write(template.render(path, {}))
 
+class EventHandler(webapp2.RequestHandler):
+    def get(self):
+	    path = os.path.join(os.path.dirname(__file__), 'public/event.html')
+	    self.response.out.write(template.render(path, {}))
+
 app = webapp2.WSGIApplication([
     ('/', LoginHandler),
-    ('/dashboard', DashboardHandler)
+    ('/dashboard', DashboardHandler),
+    ('/event', EventHandler)
 ], debug=True)
