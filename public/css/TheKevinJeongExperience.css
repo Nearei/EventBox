@@ -5,7 +5,6 @@ body{
 /* centering stuff */
 .centering-wrapper {
     margin:auto;
-    padding:auto;
     position:absolute;
     top:0;
     bottom:0;

@@ -34,8 +34,14 @@ class EventHandler(webapp2.RequestHandler):
 	    path = os.path.join(os.path.dirname(__file__), 'public/event.html')
 	    self.response.out.write(template.render(path, {}))
 
+class SpinnerHandler(webapp2.RequestHandler):
+    def get(self):
+	    path = os.path.join(os.path.dirname(__file__), 'public/spinner.html')
+	    self.response.out.write(template.render(path, {}))
+
 app = webapp2.WSGIApplication([
     ('/', LoginHandler),
     ('/dashboard', DashboardHandler),
-    ('/event', EventHandler)
+    ('/event', EventHandler),
+    ('/spinner', SpinnerHandler)
 ], debug=True)
