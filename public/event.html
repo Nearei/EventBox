@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="EventBox">
 
 <head>
 	<meta charset="utf-8">
@@ -12,6 +12,9 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/plugins/ducksboard-gridster.js-ef626f8/dist/jquery.gridster.min.js"></script>
+	<script type="text/javascript" src="/plugins/angular.min.js"></script>
+	<script type="text/javascript" src="/js/app.js"></script>
+	<script type="text/javascript" src="/js/controllers.js"></script>
 
 	<style type="text/css">
 	html {
@@ -38,7 +41,7 @@
 	</script>
 </head>
 
-<body>
+<body ng-controller="appCtrl">
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class"span12">
