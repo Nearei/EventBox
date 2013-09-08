@@ -12,6 +12,10 @@ function appCtrl ($scope, $location, ndb) {
 
 	$scope.mode = "loading";
 
+	//map objects
+	$scope.map = {};
+	$scope.markersArray = [];
+
 
 	$scope.event_data = {};
 
@@ -33,6 +37,7 @@ function appCtrl ($scope, $location, ndb) {
 					if ($location.search()['e']) {
 						ndb.getEvent($location.search()['e']).then(function(response) {
 							$scope.event_data = response;
+							$scope.event_data.formatted_datetime = moment($scope.event_data.datetime).format('MMMM Do, YYYY\n h:mm a');
 							console.log($scope.event_data);
 
 							var userAdded = false;
@@ -102,7 +107,7 @@ function appCtrl ($scope, $location, ndb) {
 	}
 
 	$scope.displayTimeModal = function() {
-
+		$('#time-modal').modal('show');
 	}
 
 	$scope.displayDescriptionModal = function() {
@@ -113,8 +118,54 @@ function appCtrl ($scope, $location, ndb) {
 
 	}
 
-	$scope.removeModal = function() {
+	$scope.displayLocationModal = function() {
+		var geocoder = new google.maps.Geocoder();
+		var mapOptions = {
+			zoom: 10,
+			center: new google.maps.LatLng($scope.event_data.loc.lat, $scope.event_data.loc.lon),
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		$scope.map = new google.maps.Map(document.getElementById('map-canvas'),
+		  mapOptions);
+		var marker = new google.maps.Marker({
+		    position: new google.maps.LatLng($scope.event_data.loc.lat, $scope.event_data.loc.lon),
+		    map: $scope.map,
+		    title: $scope.event_data.loc.name
+		});
+		$scope.markersArray.push(marker);
 
+		$('#location-modal').modal('show');
+	}
+
+	$scope.showLocation = function() {
+		var geocoder = new google.maps.Geocoder();
+		var location = $scope.event_data.loc.name;
+
+		geocoder.geocode( { 'address': location}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+			  for (var i = 0; i < $scope.markersArray.length; i++ ) {
+			    $scope.markersArray[i].setMap(null);
+			  }
+			  $scope.markersArray = [];
+			    map.setCenter(results[0].geometry.location);
+				var marker = new google.maps.Marker({
+					position: results[0].geometry.location,
+					map: map,
+					title: 'Your Location'
+				});
+				$scope.markersArray.push(marker);
+				console.log('success');
+			}else{
+			 console.log('fail');
+			}
+		});
+
+		// add $scope.event_data.loc.name to location poll
+	}
+
+	$scope.removeModal = function() {
+		$('#location-modal').modal('hide');
+		$('#time-modal').modal('hide');
 	}
 
 	$scope.addPollOption = function(poll_type, option) {

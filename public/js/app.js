@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-var sp = angular.module('EventBox', ['services']);
+var sp = angular.module('EventBox', ['services', 'directives']);
 
 //dashboard ng-view
 angular.module('content', []).

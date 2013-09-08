@@ -41,7 +41,7 @@ def parseEvent(result):
 
 	for user in result.people:
 		output["people"].append({
-			"user": user.name,
+			"name": user.name,
 			"id": user.fb_id
 			})
 

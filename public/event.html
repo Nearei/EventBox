@@ -21,6 +21,7 @@
 	<script type="text/javascript" src="/plugins/angular.min.js"></script>
 	<script type="text/javascript" src="/js/app.js"></script>
 	<script type="text/javascript" src="/js/services.js"></script>
+	<script type="text/javascript" src="/js/directives.js"></script>
 	<script type="text/javascript" src="/js/controllers.js"></script>
 
 	<style type="text/css">
@@ -142,14 +143,14 @@
 						    </li>
 						    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
 						    	<div id="event-location" class="event-card">
-						    		<a href="#location-modal" role="button" class="btn" data-toggle="modal">
+						    		<a href="" role="button" class="btn" ng-click="displayLocationModal()">
 						    			<i class="icon-edit"></i>
 						    		</a>
 						    	</div>
 						    </li>
 						    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
 						    	<div id="event-time" class="event-card">
-						    		<a href="#time-modal" role="button" class="btn" data-toggle="modal">
+						    		<a href="" role="button" class="btn" ng-click="displayTimeModal()">
 						    			<i class="icon-edit"></i>
 						    		</a>
 						    	</div>
@@ -170,7 +171,7 @@
 	</div>
 
 	<!-- location modal -->
-	<div class="modal hide fade" id="location-modal">
+	<div class="modal hide" id="location-modal">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			<h3>Modal header</h3>
@@ -179,10 +180,8 @@
 		<div class="modal-body">
 			<div id="modal-specific" style='height:100%'>
 				<div id='map-canvas' style='height:700px;width=100%'></div>
-				<form name="input" onSubmit="showLocation();">
-					<input type="text" id="place">
-					<input type="submit" value="Change Location">
-				</form>
+				<input type="text" ng-model="event_data.loc.name">
+				<input type="submit" value="Change Location" ng-click="showLocation()">
 			</div>
 			<h1 id="poll-title-1"></h1>
 			<div id="poll-1" style="height:80%;width:80%"></div>
@@ -195,7 +194,7 @@
 	</div>
 
 	<!-- time modal -->
-	<div class="modal hide fade" id="time-modal">
+	<div class="modal hide" id="time-modal">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			<h3>Modal header</h3>
@@ -203,8 +202,8 @@
 
 		<div class="modal-body">
 			<div id="modal-specific">
-				<h1 id="current-time"></h1>
-				<div class="well">
+				<h1 id="current-time" ng-model="event_data.formatted_datetime"></h1>
+				<div datepicker class="well">
 					<div id="date-time-picker" class="input-append">
 						<input data-format="MM/dd/yyyy HH:mm:ss PP" type="text"></input>
 						<span class="add-on">

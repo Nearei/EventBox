@@ -6,20 +6,20 @@ var markersArray = [];
 
 function initialize() {
 	console.log("hi");
-		geocoder = new google.maps.Geocoder();
-	  var mapOptions = {
+	geocoder = new google.maps.Geocoder();
+	var mapOptions = {
 		zoom: 10,
 		center: new google.maps.LatLng(eventresponse.events[0].loc.lat, eventresponse.events[0].loc.lon),
 		mapTypeId: google.maps.MapTypeId.ROADMAP
-	  };
-	  map = new google.maps.Map(document.getElementById('map-canvas'),
-		  mapOptions);
-	  var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(eventresponse.events[0].loc.lat, eventresponse.events[0].loc.lon),
-      map: map,
-      title: 'Your Location'
-  });
-  markersArray.push(marker);
+	};
+	map = new google.maps.Map(document.getElementById('map-canvas'),
+	  mapOptions);
+	var marker = new google.maps.Marker({
+	    position: new google.maps.LatLng(eventresponse.events[0].loc.lat, eventresponse.events[0].loc.lon),
+	    map: map,
+	    title: 'Your Location'
+	});
+	markersArray.push(marker);
 }
 
 function showLocation(){
