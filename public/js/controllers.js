@@ -43,6 +43,7 @@ function appCtrl ($scope, $location, ndb) {
 			if (response.authResponse) {
 				FB.api('/me', function(response) {
 					$scope.user = response;
+					$scope.user.img_url = "http://graph.facebook.com/" + $scope.user.id + "/picture?width=120&height=120";
 					console.log($scope.user);
 
 					if ($location.search()['e']) {
@@ -74,6 +75,12 @@ function appCtrl ($scope, $location, ndb) {
 							description: "Insert Description Here",
 							picture_url: '/img/event4.jpg',
 							people: [$scope.user],
+							polls: [
+								{name: 'datetime',
+								 selections: []},
+								{name: 'location',
+								 selections: []}
+							]
 						};
 
 						ndb.addEvent($scope.event_data).then(function(response) {
@@ -102,6 +109,14 @@ function appCtrl ($scope, $location, ndb) {
 		ref.parentNode.insertBefore(js, ref);
 	}(document));
 
+
+    $scope.range = function(n) {
+        return new Array(n);
+    };
+
+    $scope.shareLink = function() {
+    	window.prompt('Copy to clipboard: Ctrl+C, Enter', $location.absUrl());
+    }
 
 	$scope.displayPictureModal = function() {
 		$scope.img_url = $scope.event_data.picture_url;
@@ -324,7 +339,6 @@ function appCtrl ($scope, $location, ndb) {
 		}
 
 		console.log("POPULAR: ", $scope.popular);
-
 	}
 
 

@@ -4,6 +4,7 @@ from google.appengine.ext import ndb
 class User(ndb.Model):
 	name = ndb.StringProperty(required=True)
 	fb_id = ndb.StringProperty(required=True)
+	img_url = ndb.StringProperty(required=True)
 
 class Selection(ndb.Model):
 	name = ndb.StringProperty()
@@ -30,7 +31,8 @@ def addEvent(event):
 		description = event["description"],
 		picture_url = event["picture_url"],
 		people = [User(name = event["people"][0]["name"],
-					   fb_id = event["people"][0]["id"])],
+					   fb_id = event["people"][0]["id"],
+					   img_url = event["people"][0]["img_url"])],
 		polls = [Poll(name = "datetime", selections = []),
 				 Poll(name = 'location', selections = [])]
 	);
@@ -54,7 +56,8 @@ def editEvent(event, url_key):
 
 	for person in event["people"]:
 		old_event.people.append(User(name = person["name"],
-					   		     fb_id = person["id"]))
+					   		     	 fb_id = person["id"],
+					   		     	 img_url = person["img_url"]))
 
 	key = old_event.put();
 	return old_event
@@ -68,7 +71,8 @@ def addUser(user, url_key):
 	event = ndb.Key(urlsafe=url_key)
 	event = event.get()
 	event.people.append(User(name = user["name"],
-							 fb_id = user["id"]))
+							 fb_id = user["id"],
+							 img_url = user["img_url"]))
 	key = event.put();
 	return event
 
@@ -92,7 +96,8 @@ def addVote(user, user_selection, user_poll, url_key):
 			for selection in poll.selections:
 				if selection.name == user_selection:
 					selection.people.append(User(name = user["name"],
-							 					  fb_id = user["id"]))
+							 					  fb_id = user["id"],
+							 					  img_url = user["img_url"]))
 
 	key = event.put();
 	return event
@@ -105,7 +110,8 @@ def removeVote(user, user_selection, user_poll, url_key):
 			for selection in poll.selections:
 				if selection.name == user_selection:
 					user_obj = User(name = user["name"],
-							 		fb_id = user["id"])
+							 		fb_id = user["id"],
+							 		img_url = user["img_url"])
 					selection.people.remove(user_obj)
 
 	key = event.put();

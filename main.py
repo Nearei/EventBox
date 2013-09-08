@@ -37,7 +37,8 @@ def parseEvent(result):
 	for user in result.people:
 		output["people"].append({
 			"name": user.name,
-			"id": user.fb_id
+			"id": user.fb_id,
+			"img_url": user.img_url
 			})
 
 	for poll in result.polls:
@@ -51,7 +52,8 @@ def parseEvent(result):
 			for user in selection.people:
 				new_selection["people"].append({
 					"name": user.name,
-					"id": user.fb_id
+					"id": user.fb_id,
+					"img_url": user.img_url
 				})
 			new_poll["selections"].append(new_selection)
 		output["polls"].append(new_poll)
