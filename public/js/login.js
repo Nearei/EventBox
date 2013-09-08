@@ -27,5 +27,5 @@
   }(document));
 
   function loginSuccess (){
-	window.location.href = "dashboard";
+	window.location.href = "event/";
   }

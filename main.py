@@ -18,6 +18,34 @@ import webapp2
 import os
 from google.appengine.ext.webapp import template
 from google.appengine.ext import db
+import sys
+import json
+
+import ebModels
+
+def parseEvent(result):
+	output = {
+		"name": result.name,
+		"host_name": result.host_name,
+		"host_fb_id": result.host_fb_id,
+		"description": result.description,
+		"datetime": result.datetime,
+		"loc": {
+			"lat": result.location.lat,
+			"lon": result.location.lon,
+			"name": result.location.name
+		},
+		"picture_url": result.picture_url,
+		"people": []
+	};
+
+	for user in result.people:
+		output["people"].append({
+			"user": user.name,
+			"id": user.fb_id
+			})
+
+	return output
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
@@ -34,6 +62,24 @@ class EventHandler(webapp2.RequestHandler):
 	    path = os.path.join(os.path.dirname(__file__), 'public/event.html')
 	    self.response.out.write(template.render(path, {}))
 
+class EventApiHandler(webapp2.RequestHandler):
+	def get(self):
+		result = ebModels.getEvent(self.request.get('e'))
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
+
+	def post(self):
+		data = json.loads(self.request.body)
+		result = ebModels.addEvent(data)
+		self.response.out.write(result)
+
+class UserApiHandler(webapp2.RequestHandler):
+	def post(self):
+		user = json.loads(self.request.body)
+		result = ebModels.addUser(user, self.request.get('e'))
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
+
 class SpinnerHandler(webapp2.RequestHandler):
     def get(self):
 	    path = os.path.join(os.path.dirname(__file__), 'public/spinner.html')
@@ -42,6 +88,8 @@ class SpinnerHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', LoginHandler),
     ('/dashboard', DashboardHandler),
-    ('/event', EventHandler),
+    ('/event/', EventHandler),
+    ('/api/event', EventApiHandler),
+    ('/api/user', UserApiHandler),
     ('/spinner', SpinnerHandler)
 ], debug=True)
