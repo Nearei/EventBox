@@ -61,6 +61,7 @@ function appCtrl ($scope, $location, ndb) {
 							}
 							if (!userAdded) {
 								ndb.addUser($scope.user, $location.search()['e']).then(function(user_response) {
+									$scope.event_data.people.append($scope.user);
 									$scope.mode = "view";
 									$scope.share_link = $location.absUrl();
 								});
