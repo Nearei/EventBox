@@ -31,7 +31,10 @@
 		        widget_margins: [5, 5],
 		        widget_base_dimensions: [250, 250]
 		    });
-		 
+		    $(function() {
+		    	$('#share-button').tooltip();
+		    	$('#add-event-button').tooltip();
+		    });
 		});
 	</script>
 </head>
@@ -51,9 +54,12 @@
 			<div id="event-page-header-content">
 				<div id="event-page-header-event-text">EVENT</div>
 				<div id="event-page-header-box-text">Box</div>
-				<div id="event-page-header-share-button" ng-show="share_link">
+				<div id="event-page-header-add-event-button" ng-show="share_link">
+					<a href="/event/" id="add-event-button" data-toggle="tooltip" data-placement="bottom" title="new link to event will be generated!" class="btn btn-small"><i class="icon-plus"></i> Add Event</a>
+				</div>
+				<div id="event-page-header-share-button">
 					{{share_link}}
-					<a href="" class="btn btn-small" ng-click="shareLink()"><i class="icon-share"></i> Copy to Share</a>
+					<a href="" id="share-button" data-toggle="tooltip" data-placement="bottom" title="copy to clipboard" class="btn btn-small" ng-click="shareLink()"><i class="icon-share"></i> Share Event</a>
 				</div>
 			</div>
 		</header>
@@ -163,7 +169,7 @@
 
 							    <!-- event description card -->
 							    <li data-row="2" data-col="5" data-sizex="1" data-sizey="1">
-							    	<div class="event-card">
+							    	<div class="event-card" style="background-color:#AADD00;">
 							    		<div id="event-description">
 							    			{{event_data.description.substring(0, 220)}}<span ng-show="event_data.description.length > 220">...</span>
 							    		</div>

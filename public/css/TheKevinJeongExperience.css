@@ -147,6 +147,11 @@ header {
     float:right;
     padding-top:5px;
 }
+#event-page-header-add-event-button {
+    float:right;
+    padding-top:5px;
+    padding-left:1px;
+}
 body {
     background: url('/img/event_background.png') center center fixed;
     background-repeat: repeat;
@@ -218,7 +223,7 @@ body {
     height:33.3333%;
 }
 #event-attendance .row-fluid div {
-    background-color:#AFD8D8;
+    background-color:#EEE9E9;
     height:100%;
 }
 #event-attendance .row-fluid div img {
@@ -237,6 +242,7 @@ body {
     padding-top:27.5px;
 }
 #event-description {
+    background-color:#AADD00;
     color:white;
     font-size:20px;
     text-align:left;

@@ -76,7 +76,7 @@ function appCtrl ($scope, $location, ndb) {
 							host_name: $scope.user.name,
 							host_fb_id: $scope.user.id,
 							description: "Insert Description Here",
-							picture_url: '/img/event4.jpg',
+							picture_url: '/img/event_default_picture.jpg',
 							people: [$scope.user],
 							polls: [
 								{name: 'datetime',
