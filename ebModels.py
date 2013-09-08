@@ -82,8 +82,13 @@ def addSelection(user_selection, user_poll, url_key):
 	event = event.get()
 	for poll in event.polls:
 		if poll.name == user_poll:
-			poll.selections.append(Selection(name = user_selection,
-											 people = []))
+			duplicate = False
+			for selection in poll.selections:
+				if selection.name == user_selection:
+					duplicate = True
+			if not duplicate:
+				poll.selections.append(Selection(name = user_selection,
+											 	 people = []))
 
 	key = event.put();
 	return event

@@ -1,12 +1,13 @@
 angular.module('services', []).
-	service('ndb', function($http) {
+	service('ndb', function($http, $location) {
 
 		var sendRequest = function(url, type, data, cached) {	
 			if (cached == null) {
 				cached = false;
 			}
 
-		    console.log("Send " , type , " response: ", JSON.stringify(data), ' to: ', url, "- cached: ", cached);
+			if ($location.absUrl().indexOf("localhost") != -1)
+		    	console.log("Send " , type , " response: ", JSON.stringify(data), ' to: ', url, "- cached: ", cached);
 
 			return $http({method: type, url: url, data: data, cache:cached}).
 				error(function(data, status, headers, config) {
@@ -14,7 +15,8 @@ angular.module('services', []).
 		            // console.log("data", data);
 		            throw(data);
 				}).then(function(result) {
-		            console.log("Received response: ", result.data);
+					if ($location.absUrl().indexOf("localhost") != -1)
+		            	console.log("Received response: ", result.data);
 		            var returnObj = result.data;
 		           	if (returnObj == "no result") {
 		           		returnObj = "";
@@ -51,7 +53,7 @@ angular.module('services', []).
 
 		//date["user"], data["selection"], data["poll"], self.request.get('e')
 		this.removeVote = function(data, event_key) {
-			return sendRequest('/api/vote?e=' + event_key, 'DELETE', data);
+			return sendRequest('/api/voteDelete?e=' + event_key, 'POST', data);
 		}
 
 	});

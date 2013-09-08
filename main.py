@@ -108,7 +108,8 @@ class VoteApiHandler(webapp2.RequestHandler):
 		output = parseEvent(result)
 		self.response.out.write(json.dumps(output))
 
-	def delete(self):
+class VoteDeleteApiHandler(webapp2.RequestHandler):
+	def post(self):
 		data = json.loads(self.request.body)
 		result = ebModels.removeVote(data["user"], data["selection"], data["poll"], self.request.get('e'))
 		output = parseEvent(result)
@@ -126,5 +127,6 @@ app = webapp2.WSGIApplication([
     ('/api/user', UserApiHandler),
     ('/api/selection', SelectionApiHandler),
     ('/api/vote', VoteApiHandler),
+    ('/api/voteDelete', VoteDeleteApiHandler),
     ('/spinner', SpinnerHandler)
 ], debug=True)

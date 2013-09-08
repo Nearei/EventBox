@@ -278,7 +278,7 @@
 							<img ng-show="event_data.people.length > $index + $parent.$index" class="profilepic" ng-src="{{event_data.people[$index + $parent.$index].img_url}}" alt="{{event_data.people[$index].name}}">
 						</td>
 						<td style="width:20%;text-align:center">
-							<font ng-show="event_data.people.length > $index + $parent.$index" ng-repeat="i in range(4)" color="#d3d3d3">{{event_data.people[$index + $parent.$index].name}}</font><br/>
+							<font ng-show="event_data.people.length > $index + $parent.$index" ng-repeat="i in range(4)" color="#d3d3d3">{{event_data.people[$index + $parent.$index].name}}<br/></font>
 						</td>
 					</tr>
 					</table>
