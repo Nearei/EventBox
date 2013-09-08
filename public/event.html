@@ -90,9 +90,39 @@
 			font-size:25px;
 			font-variant:small-caps;
 		}
+		#event-time {
+			margin:auto;
+			position:absolute;
+			top:0;
+			bottom:0;
+			left:0;
+			right:0;
+			width:250px;
+			height:250px;
+			/*background-image:url('/img/event_background.png');*/
+			background-color:#008B8B;
+		}
+		#event-time .row-fluid {
+			width:inherit;
+			height:33.33%;
+		}
+		#event-time .row-fluid div {
+			height:100%;
+		}
+		.event-time-detail {
+			font-size:45px;
+			text-align:center;
+			color:#AFD8D8;
+			font-weight:bold;
+			text-align:center;
+			padding-top:27.5px;
+		}
 		#event-picture img {
 			width:100%;
 			height:100%;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			border-radius: 4px;
 		}
 		#event-attendance {
 			margin:auto;
@@ -115,6 +145,9 @@
 		#event-attendance .row-fluid div img {
 			width:100%;
 			height:100%;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			border-radius: 4px;
 		}
 		#event-attendance-count {
 			background-image:url('/img/event_background.png');
@@ -205,12 +238,18 @@
 				<div class="event-wrapper">
 					<div class="gridster">
 						<ul>
+							<!-- event header card -->
 							<li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
 								<div class="event-card" style="opacity:0.3;">
 									<div id="event-header-title">PennApps 2013</div>
 									<div id="event-header-host">University of Pennsylvania</div>
+									<a href="#title-modal" role="button" class="btn" data-toggle="modal">
+						    			<i class="icon-edit"></i>
+						    		</a>
 								</div>
 							</li>
+
+							<!-- event location card -->
 						    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
 						    	<div id="event-location" class="event-card">
 						    		<a href="" role="button" class="btn" ng-click="displayLocationModal()">
@@ -218,18 +257,44 @@
 						    		</a>
 						    	</div>
 						    </li>
+
+						    <!-- event time & date card -->
 						    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
-						    	<div id="event-time" class="event-card">
-						    		<a href="" role="button" class="btn" ng-click="displayTimeModal()">
+						    	<div class="event-card">
+						    		<div id="event-time">
+						    			<div class="row-fluid">
+						    				<div class="span12">
+						    					<div class="event-time-detail" style="font-size:30px;">September 7</div>
+						    				</div>
+						    			</div>
+						    			<div class="row-fluid">
+						    				<div class="span12">
+						    					<div class="event-time-detail">7:00 PM</div>
+						    				</div>
+						    			</div>
+						    			<div class="row-fluid">
+						    				<div class="span12">
+						    					<div class="event-time-detail" style="font-size:30px;">2013</div>
+						    				</div>
+						    			</div>
+						    		</div>
+						    		<a href="" role="button" class="btn" data-toggle="modal" ng-click="displayTimeModal()">
 						    			<i class="icon-edit"></i>
 						    		</a>
 						    	</div>
 						    </li>
+
+						    <!-- event picture card -->
 						    <li data-row="1" data-col="3" data-sizex="2" data-sizey="2">
 						    	<div id="event-picture" class="event-card">
+						    		<a href="#picture-modal" role="button" class="btn" data-toggle="modal">
+						    			<i class="icon-edit"></i>
+						    		</a>
 						    		<img src="/img/background.jpg">
 						    	</div>
 						    </li>
+
+						    <!-- event attendance card -->
 						    <li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
 						    	<div class="event-card" style="background-image:url(/img/event_background.png)">
 						    		<div id="event-attendance">
@@ -266,6 +331,8 @@
 						    		</a>
 						    	</div>
 						    </li>
+
+						    <!-- event description card -->
 						    <li data-row="2" data-col="5" data-sizex="1" data-sizey="1">
 						    	<div class="event-card">
 						    		<div id="event-description">
@@ -323,7 +390,7 @@
 	<div class="modal hide" id="location-modal">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>Modal header</h3>
+			<h3>Location</h3>
 		</div>
 
 		<div class="modal-body">
@@ -337,8 +404,8 @@
 		</div>
 
 		<div class="modal-footer">
-			<a href="#" class="btn">Close</a>
-			<a href="#" class="btn btn-primary">Add To Poll</a>
+			<a href="" class="btn" value="Change Location" onClick="showLocation();">
+			<a href="" class="btn" value="Add to Poll" onClick="addToPoll();">
 		</div>
 	</div>
 
@@ -347,19 +414,12 @@
 	<div class="modal hide fade" id="desc-modal">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>Modal header</h3>
+			<h3>Description</h3>
 		</div>
 
 		<div class="modal-body">
 			<div id="desc-specific">
-				<div style="overflow:auto;height:10em;width:97%;display:inline" id="paragraph">
-					Tfksas joafjfiweo anjkfdlsanodsaj ifodsajfldna fldja ifodsaj kfldsnaf kldsa fklda
-				</div>
-				<textarea rows="10" style="resize:none;width:97%;display:none" id="textarea">
-					Tfksas joafjfiweo anjkfdlsanodsaj ifodsajfldna fldja ifodsaj kfldsnaf kldsa fklda
-				</textarea>
-				<br />
-				<input type="submit" style="display:inline" value="edit">
+				<textarea rows="4" style="resize:none;width:97%" id="textarea">Tfksas joafjfiweo anjkfdlsanodsaj ifodsajfldna fldja ifodsaj kfldsnaf kldsa fklda</textarea>
 			</div>
 		</div>
 
@@ -373,12 +433,12 @@
 	<div class="modal hide fade" id="attendance-modal">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>Modal header</h3>
+			<h3>Guests</h3>
 		</div>
 
 		<div class="modal-body">
 			<div id="attendance-specific">
-				<h1>Friends</h1>
+				<span style="font-size:22pt">Guests</span><span style="font-size:14pt"> (10)</span>
 				<table style="width:100%">
 				<tr class="row">
 					<td style="width:20%">
@@ -441,6 +501,55 @@
 				</table>
 				
 			</div>
+		</div>
+
+		<div class="modal-footer">
+			<a href="#" class="btn">Close</a>
+			<a href="#" class="btn btn-primary">Save changes</a>
+		</div>
+	</div>
+	
+	<!-- title and host modal -->
+	<div class="modal hide fade" id="title-modal">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Title and Host</h3>
+		</div>
+
+		<div class="modal-body">
+			<div id="title-specific">
+				<h1>Title:</h1>
+				<textarea rows="2" style="resize:none;width:97%;font-size:20pt;text-align:center" id="textarea">Let's go to Kevin's house</textarea>
+				<br />
+				<br />
+				<h1>Host:</h1>
+				<img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
+				<h4>Kevin Jeong</h4>
+			</div>
+			<h1 id="poll-title-3"></h1>
+			<div id="poll-3" style="height:80%;width:80%"></div>
+		</div>
+
+		<div class="modal-footer">
+			<a href="#" class="btn">Close</a>
+			<a href="#" class="btn btn-primary">Save changes</a>
+		</div>
+	</div>
+	
+	<!-- picture modal -->
+	<div class="modal hide fade" id="picture-modal">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Picture</h3>
+		</div>
+
+		<div class="modal-body">
+			<div id="picture-specific">
+				<img src="/img/event3.jpg"><br />
+				Picture URL:<textarea rows="2" style="resize:none;width:97%;font-size:12pt" id="textarea"></textarea>
+			</div>
+			<h1 id="poll-title-3"></h1>
+			<div id="poll-3" style="height:80%;width:80%"></div>
 		</div>
 
 		<div class="modal-footer">
