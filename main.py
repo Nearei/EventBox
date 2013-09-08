@@ -96,18 +96,21 @@ class SelectionApiHandler(webapp2.RequestHandler):
 	def post(self):
 		data = json.loads(self.request.body)
 		result = ebModels.addSelection(data["selection"], data["poll"], self.request.get('e'))
-		self.response.out.write(result)
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
 
 class VoteApiHandler(webapp2.RequestHandler):
 	def post(self):
 		data = json.loads(self.request.body)
-		result = ebModels.addSelection(date["user"], data["selection"], data["poll"], self.request.get('e'))
-		self.response.out.write(result)
+		result = ebModels.addVote(data["user"], data["selection"], data["poll"], self.request.get('e'))
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
 
 	def delete(self):
 		data = json.loads(self.request.body)
-		result = ebModels.addSelection(date["user"], data["selection"], data["poll"], self.request.get('e'))
-		self.response.out.write(result)
+		result = ebModels.removeVote(data["user"], data["selection"], data["poll"], self.request.get('e'))
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
 
 class SpinnerHandler(webapp2.RequestHandler):
     def get(self):

@@ -76,7 +76,7 @@ def addUser(user, url_key):
 def addSelection(user_selection, user_poll, url_key):
 	event = ndb.Key(urlsafe=url_key)
 	event = event.get()
-	for poll in polls:
+	for poll in event.polls:
 		if poll.name == user_poll:
 			poll.selections.append(Selection(name = user_selection,
 											 people = []))
@@ -87,11 +87,11 @@ def addSelection(user_selection, user_poll, url_key):
 def addVote(user, user_selection, user_poll, url_key):
 	event = ndb.Key(urlsafe=url_key)
 	event = event.get()
-	for poll in polls:
+	for poll in event.polls:
 		if poll.name == user_poll:
-			for selection in selections:
+			for selection in poll.selections:
 				if selection.name == user_selection:
-					selections.people.append(User(name = user["name"],
+					selection.people.append(User(name = user["name"],
 							 					  fb_id = user["id"]))
 
 	key = event.put();
@@ -100,9 +100,9 @@ def addVote(user, user_selection, user_poll, url_key):
 def removeVote(user, user_selection, user_poll, url_key):
 	event = ndb.Key(urlsafe=url_key)
 	event = event.get()
-	for poll in polls:
+	for poll in event.polls:
 		if poll.name == user_poll:
-			for selection in selections:
+			for selection in poll.selections:
 				if selection.name == user_selection:
 					user_obj = User(name = user["name"],
 							 		fb_id = user["id"])

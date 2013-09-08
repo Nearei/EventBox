@@ -289,11 +289,12 @@
 	<div class="modal hide" id="time-modal">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>Modal header</h3>
+			<h3>Event Time</h3>
 		</div>
 
 		<div class="modal-body">
-			<h1>{{date.formatted_date}}<br />{{date.formatted_time}}<h1>
+			<h1 ng-show="date.formatted_date">{{date.formatted_date}}<br />{{date.formatted_time}}<h1>
+			<h1 ng-hide="date.formatted_date">Select a time!</h1>
 			<div id="time-specific">
 				<div class="well">
 					<div id="date-time-picker"class="input-append">
@@ -305,12 +306,16 @@
 				</div>
 			</div>
 			<h1 id="poll-title-2"></h1>
-			<div id="poll-2" style="height:80%;width:80%"></div>
+			<div id="poll-2" style="height:80%;width:80%" >
+				<div ng-repeat="selection in date.poll" style="background-color:{{selection.color}}; width:{{selection.ratio}}%;height:7%;overflow:visible">
+					<div href="" ng-click="vote('datetime', selection.name, selection.color)" style="width:300px">{{selection.formatted_name}}</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="modal-footer">
 			<a href="" class="btn" ng-click="removeModal()">Close</a>
-			<a href="" class="btn btn-primary" ng-click="submitDateChange()">Add To Poll</a>
+			<a href="" class="btn btn-primary" ng-click="addPollOption('datetime', date.submit_datetime)">Add To Poll</a>
 		</div>
 	</div>
 
@@ -356,8 +361,6 @@
 				<br />
 				<input type="submit" style="display:inline" value="edit">
 			</div>
-			<h1 id="poll-title-3"></h1>
-			<div id="poll-3" style="height:80%;width:80%"></div>
 		</div>
 
 		<div class="modal-footer">
@@ -438,8 +441,6 @@
 				</table>
 				
 			</div>
-			<h1 id="poll-title-3"></h1>
-			<div id="poll-3" style="height:80%;width:80%"></div>
 		</div>
 
 		<div class="modal-footer">

@@ -35,8 +35,23 @@ angular.module('services', []).
 			return sendRequest('/api/event?e=' + event_key, 'PUT', event);
 		}
 
-
 		this.addUser = function(user, event_key) {
 			return sendRequest('/api/user?e=' + event_key, 'POST', user);
 		}
+
+		//data["selection"], data["poll"], self.request.get('e')
+		this.addSelection = function(data, event_key) {
+			return sendRequest('/api/selection?e=' + event_key, 'POST', data);
+		}
+
+		//date["user"], data["selection"], data["poll"], self.request.get('e')
+		this.addVote = function(data, event_key) {
+			return sendRequest('/api/vote?e=' + event_key, 'POST', data);
+		}
+
+		//date["user"], data["selection"], data["poll"], self.request.get('e')
+		this.removeVote = function(data, event_key) {
+			return sendRequest('/api/vote?e=' + event_key, 'DELETE', data);
+		}
+
 	});

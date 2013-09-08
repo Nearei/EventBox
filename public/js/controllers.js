@@ -22,12 +22,6 @@ function appCtrl ($scope, $location, ndb) {
 
 	$scope.event_data = {};
 
-	function parseEvent(response) {
-		$scope.event_data.formatted_datetime = moment(response.datetime).format('MM/DD/YYYY h:mm:ss A');
-		$scope.event_data.formatted_date = moment(response.datetime).format('MMMM Do, YYYY');
-		$scope.event_data.formatted_time = moment(response.datetime).format('h:mm A');
-	}
-
 	window.fbAsyncInit = function() {
 		FB.init({
 			appId      : '654824984529366', // App ID
@@ -114,11 +108,8 @@ function appCtrl ($scope, $location, ndb) {
 	}
 
 	$scope.displayTimeModal = function() {
-		$scope.date = {
-			formatted_datetime: $scope.event_data.formatted_datetime,
-			formatted_date: $scope.event_data.formatted_date,
-			formatted_time: $scope.event_data.formatted_time,
-		}
+		parseDate();
+		console.log($scope.date);
 
 		$('#date-time-picker').datetimepicker({
 			language: 'en',
@@ -186,36 +177,89 @@ function appCtrl ($scope, $location, ndb) {
 		// add $scope.event_data.loc.name to location poll
 	}
 
-	$scope.submitDateChange = function() {
-		if ($scope.date.submit_datetime) {
-			$scope.event_data.datetime = moment($scope.date.submit_datetime + $scope.date.formatted_time).format();
-			parseEvent($scope.event_data);
-			ndb.updateEvent($scope.event_data, $location.search()['e']);
-		}
-
-		$('#time-modal').modal('hide');
-	}
-
 	$scope.removeModal = function() {
 		$('#location-modal').modal('hide');
 		$('#time-modal').modal('hide');
 	}
 
-	$scope.addPollOption = function(poll_type, option) {
-		poll_type.push({
-			option : option,
-			votes : [$scope.user],
+	$scope.addPollOption = function(poll_type, selection) {
+		if (poll_type == 'datetime') {
+			selection = moment(selection).format();
+		}
+		ndb.addSelection({
+			selection: selection,
+			poll: poll_type
+		}, $location.search()['e']).then(function(response) {
+			$scope.event_data = response;
+
+			if (poll_type == 'datetime') {
+				parseDate();
+			}
 		});
+
 	}
 
-	$scope.vote = function(poll_type, option) {
-		for (var i = 0; i < poll_type.length; i++) {
-			if (poll_type[i] == option && poll_type[i].votes.indexOf($scope.user) == -1) {
-				poll_type[i].votes.push($scope.user);
+	$scope.vote = function(poll_type, selection, color) {
+		if (color == '#BCF46E') { //green
+			ndb.removeVote({
+				user: $scope.user,
+				selection: selection,
+				poll: poll_type
+			}, $location.search()['e']).then(function(response) {
+				$scope.event_data = response;
+
+				if (poll_type == 'datetime') {
+					parseDate();
+				}
+			});
+		} else {
+			ndb.addVote({
+				user: $scope.user,
+				selection: selection,
+				poll: poll_type
+			}, $location.search()['e']).then(function(response) {
+				$scope.event_data = response;
+
+				if (poll_type == 'datetime') {
+					parseDate();
+				}
+			});
+		}
+
+	}
+
+	function parseDate() {
+
+		$scope.date = {
+			poll: $scope.event_data.polls[0].selections
+		}
+
+		var total = 0;
+
+		for (var i = 0; i < $scope.date.poll.length; i++) {
+			total += $scope.date.poll[i].people.length;
+		}
+
+		for (var i = 0; i < $scope.date.poll.length; i++) {
+			if (containsID($scope.date.poll[i].people, $scope.user.id)) {
+				$scope.date.poll[i].color = '#BCF46E'; // green
+			} else {
+				$scope.date.poll[i].color = '#DBDBDB'; // grey
+			}
+			$scope.date.poll[i].ratio = ($scope.date.poll[i].people.length / total)*100;
+			$scope.date.poll[i].formatted_name = moment($scope.date.poll[i].name).format('MMMM Do, YYYY h:mm A');
+		}
+
+	}
+
+	function containsID(haystack, needle) {
+		for (var i = 0; i < haystack.length; i++) {
+			if (haystack[i].id == needle) {
+				return true;
 			}
 		}
+		return false;
 	}
-
 
 
 };
