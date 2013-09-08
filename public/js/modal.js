@@ -77,11 +77,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
 var html = "";
 html += eventresponse.events[0].time+'<br/>'+eventresponse.events[0].date;
 document.getElementById('current-time').innerHTML=html;
-$(function() {
+
 	$('#date-time-picker').datetimepicker({
 		language: 'en',
 		pick12HourFormat: true
 	});
-});
+
 
 //Description

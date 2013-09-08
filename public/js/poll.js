@@ -26,13 +26,13 @@ function getPollResponse (){
 function pollrefresh(){
 	var colours = {colours:[
 		{},
-		{colour:"#FFC973"},
-		{colour:"#5DC8CD"},
-		{colour:"#C7F66F"},
-		{colour:"#A767D5"},
-		{colour:"#B637C5"},
-		{colour:"#C7F66F"},
-		{colour:"#5DC8CD"}
+		{colour:"#DBDBDB"},
+		{colour:"#DBDBDB"},
+		{colour:"#DBDBDB"},
+		{colour:"#DBDBDB"},
+		{colour:"#DBDBDB"},
+		{colour:"#DBDBDB"},
+		{colour:"#DBDBDB"}
 	]};
 
 	var pollresponse = getPollResponse();
@@ -40,9 +40,16 @@ function pollrefresh(){
 	var pollName = pollresponse[0].name;
 	var pollTotal = pollresponse[0].votes;
 	var html = "";
+	var top=0;
 	for (var i=1;i<pollresponse.length;i++){
-		html+='<div style="background-color:'+colours.colours[i].colour+';width:'+((pollresponse[i].votes/pollresponse[0].votes)*100)+'%;height:7%">'+pollresponse[i].name+'</div>';
+		if (top<pollresponse[i].votes){
+			top=pollresponse[i].votes;
+		}
 	}
+	for (var i=1;i<pollresponse.length;i++){
+		html+='<div style="background-color:'+colours.colours[i].colour+';width:'+((pollresponse[i].votes/top)*100)+'%;height:7%;overflow:visible"><div style="width:300px">'+pollresponse[i].name+'</div></div>';
+	}
+		
 	document.getElementById("poll-1").innerHTML = html;
 	document.getElementById("poll-2").innerHTML = html;
 	document.getElementById("poll-3").innerHTML = html;
