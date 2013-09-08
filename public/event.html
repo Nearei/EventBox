@@ -58,6 +58,10 @@
 			font-variant: small-caps;
 			color:#88ABE6;
 		}
+		#event-page-header-share-button {
+			float:right;
+			padding-top:5px;
+		}
 		body {
 			background: url('/img/event_background.png') center center fixed;
 			background-repeat: repeat;
@@ -91,8 +95,8 @@
 			bottom:0;
 			left:0;
 			right:0;
-			max-width:945px;
-			max-height:630px;
+			max-width:1300px;
+			max-height:520px;
 		}
 		.profilepic {
 			max-height:100%;
@@ -107,8 +111,8 @@
 		$(function(){ //DOM Ready
 		 
 		    $(".gridster ul").gridster({
-		        widget_margins: [20, 20],
-		        widget_base_dimensions: [275, 275]
+		        widget_margins: [5, 5],
+		        widget_base_dimensions: [250, 250]
 		    });
 		 
 		});
@@ -121,6 +125,10 @@
 		<div id="event-page-header-content">
 			<div id="event-page-header-event-text">EVENT</div>
 			<div id="event-page-header-box-test">Box</div>
+			<div id="event-page-header-share-button">
+				http://www.tumblr.com/tagged/awesome-url
+				<a href="#" class="btn btn-small"><i class="icon-share"></i> Copy to Share</a>
+			</div>
 		</div>
 	</header>
 
@@ -131,38 +139,38 @@
 				<div class="event-wrapper">
 					<div class="gridster">
 						<ul>
-							<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+							<li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
 								<div id="event-header" class="event-card">
 									the authors classified integrable homomorphisms. It is essential to consider that theta may be non-countably negative. Recent interest in Steiner lines	has centered on examining triangles. This reduces the results of [34] to the general theory. It is not yet known whether every algebraically partial, singular manifold is meromorphic, although [26] does address the issue of solvability. fdsfdsfds fdsfds fdsfds fdsfdsf sdfdsf sdfsdf
 								</div>
 							</li>
-						    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
-						    	<div id="event-picture" class="event-card">
-						    		
-						    	</div>
-						    </li>
-						    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+						    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
 						    	<div id="event-location" class="event-card">
 						    		<a href="#location-modal" role="button" class="btn" data-toggle="modal">
 						    			<i class="icon-edit"></i>
 						    		</a>
 						    	</div>
 						    </li>
-						    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+						    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
 						    	<div id="event-time" class="event-card">
 						    		<a href="#time-modal" role="button" class="btn" data-toggle="modal">
 						    			<i class="icon-edit"></i>
 						    		</a>
 						    	</div>
 						    </li>
-						    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
+						    <li data-row="1" data-col="3" data-sizex="2" data-sizey="2">
+						    	<div id="event-picture" class="event-card">
+						    		
+						    	</div>
+						    </li>
+						    <li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
 						    	<div id="event-description" class="event-card">
 									<a href="#desc-modal" role="button" class="btn" data-toggle="modal">
 						    			<i class="icon-edit"></i>
 						    		</a>
 						    	</div>
 						    </li>
-						    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
+						    <li data-row="2" data-col="5" data-sizex="1" data-sizey="1">
 						    	<div id="event-attendance" class="event-card">
 									<a href="#attendance-modal" role="button" class="btn" data-toggle="modal">
 						    			<i class="icon-edit"></i>
