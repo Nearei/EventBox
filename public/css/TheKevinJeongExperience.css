@@ -283,3 +283,31 @@ body {
 .row {
     height:106px;
 }
+
+.vote-link {
+    width: 524px;
+    padding-left: 5px;
+    border: 1px solid;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.vote-bar {
+    height:7%;
+    overflow:visible;
+    margin: 2px;
+    border-radius: 5px;
+}
+
+.vote-bar i {
+    margin-top: 3px;
+}
+
+.vote-link:hover {
+    color: orange;
+}
+
+.poll-title {
+    font-size: 27px;
+    margin-bottom: 10px;
+}

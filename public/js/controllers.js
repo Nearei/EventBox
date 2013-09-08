@@ -5,7 +5,7 @@
 function appCtrl ($scope, $location, ndb) {
 
 	$scope.user = {};
-	$scope.share_link = $location.absUrl();
+	$scope.share_link = "";
 
 	$scope.time_poll = [];
 	$scope.location_poll = [];
@@ -15,6 +15,7 @@ function appCtrl ($scope, $location, ndb) {
 	$scope.title = "";
 	$scope.description = "";
 	$scope.img_url = "";
+	$scope.location = "";
 
 	$scope.popular = {
 		datetime: "",
@@ -61,9 +62,11 @@ function appCtrl ($scope, $location, ndb) {
 							if (!userAdded) {
 								ndb.addUser($scope.user, $location.search()['e']).then(function(user_response) {
 									$scope.mode = "view";
+									$scope.share_link = $location.absUrl();
 								});
 							} else {
 								$scope.mode = "view";
+								$scope.share_link = $location.absUrl();
 							}
 						});
 					} else {
@@ -88,6 +91,7 @@ function appCtrl ($scope, $location, ndb) {
 							parsePopular();
 
 							$scope.mode="view";
+							$scope.share_link = $location.absUrl();
 						});
 					}
 				});
@@ -171,32 +175,26 @@ function appCtrl ($scope, $location, ndb) {
 		});
 	}
 
-	$scope.displayFacebookModal = function() {
-
-	}
-
 	$scope.displayLocationModal = function() {
+		$scope.location = $scope.popular.location;
+
 		var geocoder = new google.maps.Geocoder();
 		var mapOptions = {
 			zoom: 10,
-			center: new google.maps.LatLng($scope.event_data.loc.lat, $scope.event_data.loc.lon),
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 		$scope.map = new google.maps.Map(document.getElementById('map-canvas'),
 		  mapOptions);
-		var marker = new google.maps.Marker({
-		    position: new google.maps.LatLng($scope.event_data.loc.lat, $scope.event_data.loc.lon),
-		    map: $scope.map,
-		    title: $scope.event_data.loc.name
-		});
-		$scope.markersArray.push(marker);
+
+		$scope.showLocation();
+		parseLocation();
 
 		$('#location-modal').modal('show');
 	}
 
 	$scope.showLocation = function() {
 		var geocoder = new google.maps.Geocoder();
-		var location = $scope.event_data.loc.name;
+		var location = $scope.location;
 
 		geocoder.geocode( { 'address': location}, function(results, status) {
 			if (status == google.maps.GeocoderStatus.OK) {
@@ -226,6 +224,7 @@ function appCtrl ($scope, $location, ndb) {
 		$('#title-modal').modal('hide');
 		$('#desc-modal').modal('hide');
 		$('#picture-modal').modal('hide');
+		$('#attendance-modal').modal('hide');
 	}
 
 	$scope.addPollOption = function(poll_type, selection) {
@@ -240,6 +239,8 @@ function appCtrl ($scope, $location, ndb) {
 
 			if (poll_type == 'datetime') {
 				parseDate();
+			} else if (poll_type == 'location') {
+				parseLocation();
 			}
 			parsePopular();
 		});
@@ -257,6 +258,8 @@ function appCtrl ($scope, $location, ndb) {
 
 				if (poll_type == 'datetime') {
 					parseDate();
+				} else if (poll_type == 'location') {
+					parseLocation();
 				}
 				parsePopular();
 			});
@@ -270,6 +273,8 @@ function appCtrl ($scope, $location, ndb) {
 
 				if (poll_type == 'datetime') {
 					parseDate();
+				} else if (poll_type == 'location') {
+					parseLocation();
 				}
 				parsePopular();
 			});
@@ -295,9 +300,44 @@ function appCtrl ($scope, $location, ndb) {
 			} else {
 				$scope.date.poll[i].color = '#DBDBDB'; // grey
 			}
-			$scope.date.poll[i].ratio = ($scope.date.poll[i].people.length / total)*100;
+			if (total == 0) {
+				$scope.date.poll[i].ratio = 0;
+			} else {
+				$scope.date.poll[i].ratio = ($scope.date.poll[i].people.length / total)*100;
+			}
 			$scope.date.poll[i].formatted_name = moment($scope.date.poll[i].name).format('MMMM Do, YYYY h:mm A');
 		}
+
+	}
+
+
+	function parseLocation() {
+
+		$scope.locations = {
+			poll: $scope.event_data.polls[1].selections
+		}
+
+		var total = 0;
+
+		for (var i = 0; i < $scope.locations.poll.length; i++) {
+			total += $scope.locations.poll[i].people.length;
+		}
+
+		for (var i = 0; i < $scope.locations.poll.length; i++) {
+			if (containsID($scope.locations.poll[i].people, $scope.user.id)) {
+				$scope.locations.poll[i].color = '#BCF46E'; // green
+			} else {
+				$scope.locations.poll[i].color = '#DBDBDB'; // grey
+			}
+
+			if (total == 0) {
+				$scope.locations.poll[i].ratio = 0;
+			} else {
+				$scope.locations.poll[i].ratio = ($scope.locations.poll[i].people.length / total)*100;
+			}
+		}
+
+		console.log($scope.locations);
 
 	}
 
@@ -337,6 +377,23 @@ function appCtrl ($scope, $location, ndb) {
 				year: now.format('YYYY'),
 			}
 		}
+
+		// location
+		var locations = $scope.event_data.polls[1].selections;
+		var max_index = 0;
+
+		for (var i = 1; i < locations.length; i++) {
+			if (locations[i].people.length > locations[max_index].people.length) {
+				max_index = i;
+			}
+		}
+
+		if (locations.length) {
+			$scope.popular.location = locations[max_index].name
+		} else {
+			$scope.popular.location = "University of Pennsylvania";
+		}
+
 
 		console.log("POPULAR: ", $scope.popular);
 	}
