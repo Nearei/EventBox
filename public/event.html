@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="EventBox">
+<html lang="en">
 
 <head>
 	<meta charset="utf-8">
@@ -13,15 +13,9 @@
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/plugins/moment.min.js"></script>
 	<script type="text/javascript" src="/plugins/ducksboard-gridster.js-ef626f8/dist/jquery.gridster.min.js"></script>
 	<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-
-	<script type="text/javascript" src="/plugins/angular.min.js"></script>
-	<script type="text/javascript" src="/js/app.js"></script>
-	<script type="text/javascript" src="/js/services.js"></script>
-	<script type="text/javascript" src="/js/controllers.js"></script>
 
 	<style type="text/css">
 		html {
@@ -100,6 +94,13 @@
 			max-width:945px;
 			max-height:630px;
 		}
+		.profilepic {
+			max-height:100%;
+			max-width:98%;
+		}
+		.row {
+			height:106px;
+		}
 	</style>
 
 	<script type="text/javascript">
@@ -114,7 +115,7 @@
 	</script>
 </head>
 
-<body ng-controller="appCtrl">
+<body>
 	<!-- event page header -->
 	<header>
 		<div id="event-page-header-content">
@@ -265,22 +266,68 @@
 
 		<div class="modal-body">
 			<div id="attendance-specific">
-				<table>
-				<tr>
-					<td style="width:25%">
-						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg" alt="Kevin Jeong">
+				<h1>Friends</h1>
+				<table style="width:100%">
+				<tr class="row">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg" alt="Kevin Jeong">
 					</td>
-					<td style="width:25%">
-						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c66.66.828.828/s160x160/311610_10151453530316016_215247938_n.jpg" alt="Tim Pei">
 					</td>
-					<td style="width:25%">
-						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/c45.45.568.568/s160x160/46212_10151317981601285_298166409_n.jpg" alt="Carol Yin">
 					</td>
-					<td style="width:25%">
-						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/c113.33.414.414/s160x160/1184832_10151853567272733_2121871192_n.jpg" alt="Roni Luo">
 					</td>
-				<tr>
+					<td style="width:20%;text-align:center">
+						<font color="#d3d3d3">Kevin Jeong</font><br/>
+						<font color="#d3d3d3">Tim Pei</font><br/>
+						<font color="#d3d3d3">Carol Yin</font><br/>
+						<font color="#000000">Roni Luo</font>
+					</td>
+				</tr>
+				<tr class="row">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash4/c66.66.828.828/s160x160/3557_10152705387800468_1744872323_n.jpg" alt="Jacky Li">
+					</td>
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/c132.0.828.828/s160x160/533899_10150283928364997_317612907_n.jpg" alt="Kevin Lee">
+					</td>
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c337.43.511.511/s160x160/972127_10151506660968920_199023210_n.jpg" alt="Jenny Li">
+					</td>
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc1/c0.225.414.414/s160x160/602256_10152221087395478_2112740665_n.jpg" alt="Jane Li">
+					</td>
+					<td style="width:20%;text-align:center">
+						<font color="#d3d3d3">Jacky Li</font><br/>
+						<font color="#d3d3d3">Kevin Lee</font><br/>
+						<font color="#d3d3d3">Jenny Li</font><br/>
+						<font color="#d3d3d3">Jane Li</font>
+					</td>
+				</tr>
+				<tr class="row">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/c0.91.546.546/s160x160/1014456_10151735614520549_163015326_n.jpg" alt="Sarah Yenny Yu">
+					</td>
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/c203.44.555.555/s160x160/1146740_10153113989615462_733754392_n.jpg" alt="Paul Jin Yoon">
+					</td>
+					<td style="width:20%">
+					</td>
+					<td style="width:20%">
+					</td>
+					<td style="width:20%;text-align:center">
+						<font color="#d3d3d3">Sarah Yenny Yu</font><br/>
+						<font color="#d3d3d3">Paul Jin Yoon</font><br/>
+						<font color="#d3d3d3"></font><br/>
+						<font color="#d3d3d3"></font>
+					</td>
+				</tr>
 				</table>
+				
 			</div>
 			<h1 id="poll-title-3"></h1>
 			<div id="poll-3" style="height:80%;width:80%"></div>
