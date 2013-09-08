@@ -57,7 +57,7 @@
 			font-size: 25px;
 			color:#36609A;
 		}
-		#event-page-header-box-test {
+		#event-page-header-box-text {
 			float: left;
 			padding-top:7px;
 			font-size: 25px;
@@ -90,6 +90,10 @@
 			font-size:25px;
 			font-variant:small-caps;
 		}
+		#event-picture img {
+			width:100%;
+			height:100%;
+		}
 		#event-attendance {
 			margin:auto;
 			position:absolute;
@@ -99,6 +103,36 @@
 			right:0;
 			width:250px;
 			height:250px;
+		}
+		#event-attendance .row-fluid {
+			width:inherit;
+			height:33.3333%;
+		}
+		#event-attendance .row-fluid div {
+			background-color:#AFD8D8;
+			height:100%;
+		}
+		#event-attendance .row-fluid div img {
+			width:100%;
+			height:100%;
+		}
+		#event-attendance-count {
+			background-image:url('/img/event_background.png');
+			color:#008B8B;
+			font-weight:bold;
+			text-align:center;
+			font-size:30px;
+			padding-top:27.5px;
+		}
+		#event-description {
+			color:white;
+			font-size:20px;
+			text-align:left;
+			position:absolute;
+			top:15px;
+			left:15px;
+			right:15px;
+			bottom:15px;
 		}
 		.event-card {
 			background-color:#008B8B;
@@ -156,7 +190,7 @@
 	<header>
 		<div id="event-page-header-content">
 			<div id="event-page-header-event-text">EVENT</div>
-			<div id="event-page-header-box-test">Box</div>
+			<div id="event-page-header-box-text">Box</div>
 			<div id="event-page-header-share-button">
 				{{share_link}}
 				<a href="#" class="btn btn-small"><i class="icon-share"></i> Copy to Share</a>
@@ -193,24 +227,38 @@
 						    </li>
 						    <li data-row="1" data-col="3" data-sizex="2" data-sizey="2">
 						    	<div id="event-picture" class="event-card">
-						    		
+						    		<img src="/img/background.jpg">
 						    	</div>
 						    </li>
 						    <li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
 						    	<div class="event-card" style="background-image:url(/img/event_background.png)">
 						    		<div id="event-attendance">
-						    			<div class="row-fluid" style="width:inherit;height:33.3333%">
-						    				<div class="span12" style="background-color:yellow;height:100%;"></div>
+						    			<div class="row-fluid">
+						    				<div class="span4">
+						    					<img src="/img/event1.jpg">
+						    				</div>
+						    				<div class="span4">
+						    					<img src="/img/event1.jpg">
+						    				</div>
+						    				<div class="span4">
+						    					<img src="/img/event1.jpg">
+						    				</div>
 						    			</div>
-						    			<div class="row-fluid" style="width:inherit;height:33.3333%">
-						    				<div class="span4 offset0" style="background-color:red;height:100%;"></div>
-						    				<div class="span4 offset0" style="background-color:red;height:100%;"></div>
-						    				<div class="span4 offset0" style="background-color:red;height:100%;"></div>
+						    			<div class="row-fluid">
+						    				<div class="span12" style="background-image:url(/img/event_background.png)">
+						    					<div id="event-attendance-count">2013 Guests</div>
+						    				</div>
 						    			</div>
-						    			<div class="row-fluid" style="width:inherit;height:33.3333%">
-						    				<div class="span4 offset0" style="background-color:orange;height:100%;"></div>
-						    				<div class="span4 offset0" style="background-color:orange;height:100%;"></div>
-						    				<div class="span4 offset0" style="background-color:orange;height:100%;"></div>
+						    			<div class="row-fluid">
+						    				<div class="span4">
+						    					<img src="/img/event1.jpg">
+						    				</div>
+						    				<div class="span4">
+						    					<img src="/img/event1.jpg">
+						    				</div>
+						    				<div class="span4">
+						    					<img src="/img/event1.jpg">
+						    				</div>
 						    			</div>
 						    		</div>
 									<a href="#attendance-modal" role="button" class="btn" data-toggle="modal">
@@ -219,7 +267,12 @@
 						    	</div>
 						    </li>
 						    <li data-row="2" data-col="5" data-sizex="1" data-sizey="1">
-						    	<div id="event-description" class="event-card">
+						    	<div class="event-card">
+						    		<div id="event-description">
+						    			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						    			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						    			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.
+						    		</div>
 									<a href="#desc-modal" role="button" class="btn" data-toggle="modal">
 						    			<i class="icon-edit"></i>
 						    		</a>
