@@ -287,10 +287,10 @@
 						    <!-- event picture card -->
 						    <li data-row="1" data-col="3" data-sizex="2" data-sizey="2">
 						    	<div id="event-picture" class="event-card">
-						    		<a href="#picture-modal" role="button" class="btn" data-toggle="modal">
+						    		<a href="" role="button" class="btn" ng-click="displayPictureModal()">
 						    			<i class="icon-edit"></i>
 						    		</a>
-						    		<img src="/img/background.jpg">
+						    		<img ng-src="{{event_data.picture_url}}">
 						    	</div>
 						    </li>
 
@@ -336,11 +336,9 @@
 						    <li data-row="2" data-col="5" data-sizex="1" data-sizey="1">
 						    	<div class="event-card">
 						    		<div id="event-description">
-						    			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						    			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						    			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.
+						    			{{event_data.description.substring(0, 220)}}<span ng-show="event_data.description.length > 220">...</span>
 						    		</div>
-									<a href="#desc-modal" role="button" class="btn" data-toggle="modal">
+									<a href="" role="button" class="btn" data-toggle="modal" ng-click="displayDescriptionModal();">
 						    			<i class="icon-edit"></i>
 						    		</a>
 						    	</div>
@@ -404,8 +402,8 @@
 		</div>
 
 		<div class="modal-footer">
-			<a href="" class="btn" value="Change Location" onClick="showLocation();">
-			<a href="" class="btn" value="Add to Poll" onClick="addToPoll();">
+			<a href="" class="btn" value="Change Location" onClick="showLocation();"></a>
+			<a href="" class="btn" value="Add to Poll" onClick="addToPoll();"></a>
 		</div>
 	</div>
 
@@ -419,13 +417,13 @@
 
 		<div class="modal-body">
 			<div id="desc-specific">
-				<textarea rows="4" style="resize:none;width:97%" id="textarea">Tfksas joafjfiweo anjkfdlsanodsaj ifodsajfldna fldja ifodsaj kfldsnaf kldsa fklda</textarea>
+				<textarea rows="4" style="resize:none;width:97%" id="textarea" ng-model="description"></textarea>
 			</div>
 		</div>
 
 		<div class="modal-footer">
-			<a href="#" class="btn">Close</a>
-			<a href="#" class="btn btn-primary">Save changes</a>
+			<a href="" class="btn" ng-click="removeModal()">Close</a>
+			<a href="" class="btn btn-primary" ng-click="saveDescription(description)">Save changes</a>
 		</div>
 	</div>
 
@@ -545,16 +543,14 @@
 
 		<div class="modal-body">
 			<div id="picture-specific">
-				<img src="/img/event3.jpg"><br />
-				Picture URL:<textarea rows="2" style="resize:none;width:97%;font-size:12pt" id="textarea"></textarea>
+				<img src="{{img_url}}" style="height:250px;"><br />
+				Picture URL:<textarea rows="2" style="resize:none;width:97%;font-size:12pt" id="textarea" ng-model="img_url"></textarea>
 			</div>
-			<h1 id="poll-title-3"></h1>
-			<div id="poll-3" style="height:80%;width:80%"></div>
 		</div>
 
 		<div class="modal-footer">
-			<a href="#" class="btn">Close</a>
-			<a href="#" class="btn btn-primary">Save changes</a>
+			<a href="" class="btn" ng-click="removeModal()">Close</a>
+			<a href="" class="btn btn-primary" ng-click="saveImageUrl(img_url)">Save changes</a>
 		</div>
 	</div>
 </body>

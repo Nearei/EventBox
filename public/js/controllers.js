@@ -13,6 +13,8 @@ function appCtrl ($scope, $location, ndb) {
 
 	$scope.date = {};
 	$scope.title = "";
+	$scope.description = "";
+	$scope.img_url = "";
 
 	$scope.popular = {
 		datetime: "",
@@ -102,7 +104,15 @@ function appCtrl ($scope, $location, ndb) {
 
 
 	$scope.displayPictureModal = function() {
+		$scope.img_url = $scope.event_data.picture_url;
+		$('#picture-modal').modal('show');
+	}
 
+	$scope.saveImageUrl = function(img_url) {
+		$scope.event_data.picture_url = img_url;
+		ndb.updateEvent($scope.event_data, $location.search()['e']).then(function(response) {
+			$('#picture-modal').modal('hide');
+		});
 	}
 
 	$scope.displayTitleModal = function() {
@@ -135,7 +145,15 @@ function appCtrl ($scope, $location, ndb) {
 	}
 
 	$scope.displayDescriptionModal = function() {
+		$scope.description = $scope.event_data.description;
+		$('#desc-modal').modal('show');
+	}
 
+	$scope.saveDescription = function(description) {
+		$scope.event_data.description = description;
+		ndb.updateEvent($scope.event_data, $location.search()['e']).then(function(response) {
+			$('#desc-modal').modal('hide');
+		});
 	}
 
 	$scope.displayFacebookModal = function() {
@@ -191,6 +209,8 @@ function appCtrl ($scope, $location, ndb) {
 		$('#location-modal').modal('hide');
 		$('#time-modal').modal('hide');
 		$('#title-modal').modal('hide');
+		$('#desc-modal').modal('hide');
+		$('#picture-modal').modal('hide');
 	}
 
 	$scope.addPollOption = function(poll_type, selection) {
