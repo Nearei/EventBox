@@ -38,13 +38,21 @@ def addEvent(event):
 					   fb_id = event["people"][0]["id"])]
 	);
 
-	key = event.put();
-	key_string = key.urlsafe();
+	key = event.put()
+	key_string = key.urlsafe()
 
 	return key_string
 
 def getEvent(url_key):
 	event = ndb.Key(urlsafe=url_key)
 	return event.get()
+
+def addUser(user, url_key):
+	event = ndb.Key(urlsafe=url_key)
+	event = event.get()
+	event.people.append(User(name = user["name"],
+							 fb_id = user["id"]))
+	key = event.put();
+	return event
 
 

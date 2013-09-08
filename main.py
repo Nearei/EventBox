@@ -23,6 +23,30 @@ import json
 
 import ebModels
 
+def parseEvent(result):
+	output = {
+		"name": result.name,
+		"host_name": result.host_name,
+		"host_fb_id": result.host_fb_id,
+		"description": result.description,
+		"datetime": result.datetime,
+		"loc": {
+			"lat": result.location.lat,
+			"lon": result.location.lon,
+			"name": result.location.name
+		},
+		"picture_url": result.picture_url,
+		"people": []
+	};
+
+	for user in result.people:
+		output["people"].append({
+			"user": user.name,
+			"id": user.fb_id
+			})
+
+	return output
+
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
 	    path = os.path.join(os.path.dirname(__file__), 'public/login.html')
@@ -41,33 +65,20 @@ class EventHandler(webapp2.RequestHandler):
 class EventApiHandler(webapp2.RequestHandler):
 	def get(self):
 		result = ebModels.getEvent(self.request.get('e'))
-		output = {
-			"name": result.name,
-			"host_name": result.host_name,
-			"host_fb_id": result.host_fb_id,
-			"description": result.description,
-			"datetime": result.datetime,
-			"loc": {
-				"lat": result.location.lat,
-				"lon": result.location.lon,
-				"name": result.location.name
-			},
-			"picture_url": result.picture_url,
-			"people": []
-		};
-
-		for user in result.people:
-			output["people"].append({
-				"user": user.name,
-				"id": user.fb_id
-				})
-
+		output = parseEvent(result)
 		self.response.out.write(json.dumps(output))
 
 	def post(self):
 		data = json.loads(self.request.body)
 		result = ebModels.addEvent(data)
 		self.response.out.write(result)
+
+class UserApiHandler(webapp2.RequestHandler):
+	def post(self):
+		user = json.loads(self.request.body)
+		result = ebModels.addUser(user, self.request.get('e'))
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
 
 class SpinnerHandler(webapp2.RequestHandler):
     def get(self):
@@ -79,5 +90,6 @@ app = webapp2.WSGIApplication([
     ('/dashboard', DashboardHandler),
     ('/event/', EventHandler),
     ('/api/event', EventApiHandler),
+    ('/api/user', UserApiHandler),
     ('/spinner', SpinnerHandler)
 ], debug=True)

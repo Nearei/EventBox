@@ -33,6 +33,22 @@ function appCtrl ($scope, $location, ndb) {
 					if ($location.search()['e']) {
 						ndb.getEvent($location.search()['e']).then(function(response) {
 							$scope.event_data = response;
+							console.log($scope.event_data);
+
+							var userAdded = false;
+							for (var i = 0; i < $scope.event_data.people.length; i++) {
+								if ($scope.event_data.people[i].id == $scope.user.id) {
+									userAdded = true;
+									break;
+								}
+							}
+							if (!userAdded) {
+								ndb.addUser($scope.user, $location.search()['e']).then(function(user_response) {
+									$scope.mode = "view";
+								});
+							} else {
+								$scope.mode = "view";
+							}
 						});
 					} else {
 
