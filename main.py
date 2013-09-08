@@ -29,21 +29,32 @@ def parseEvent(result):
 		"host_name": result.host_name,
 		"host_fb_id": result.host_fb_id,
 		"description": result.description,
-		"datetime": result.datetime,
-		"loc": {
-			"lat": result.location.lat,
-			"lon": result.location.lon,
-			"name": result.location.name
-		},
 		"picture_url": result.picture_url,
-		"people": []
+		"people": [],
+		"polls": []
 	};
 
 	for user in result.people:
 		output["people"].append({
-			"user": user.name,
+			"name": user.name,
 			"id": user.fb_id
 			})
+
+	for poll in result.polls:
+		new_poll = {}
+		new_poll["name"] = poll.name
+		new_poll["selections"] = []
+		for selection in poll.selections:
+			new_selection = {}
+			new_selection["name"] = selection.name
+			new_selection["people"] = []
+			for user in selection.people:
+				new_selection["people"].append({
+					"name": user.name,
+					"id": user.fb_id
+				})
+			new_poll["selections"].append(new_selection)
+		output["polls"].append(new_poll)
 
 	return output
 
@@ -57,11 +68,6 @@ class DashboardHandler(webapp2.RequestHandler):
 	    path = os.path.join(os.path.dirname(__file__), 'public/dashboard.html')
 	    self.response.out.write(template.render(path, {}))
 
-class EventHandler(webapp2.RequestHandler):
-    def get(self):
-	    path = os.path.join(os.path.dirname(__file__), 'public/event.html')
-	    self.response.out.write(template.render(path, {}))
-
 class EventApiHandler(webapp2.RequestHandler):
 	def get(self):
 		result = ebModels.getEvent(self.request.get('e'))
@@ -73,10 +79,36 @@ class EventApiHandler(webapp2.RequestHandler):
 		result = ebModels.addEvent(data)
 		self.response.out.write(result)
 
+	def put(self):
+		data = json.loads(self.request.body)
+		result = ebModels.editEvent(data, self.request.get('e'))
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
+
 class UserApiHandler(webapp2.RequestHandler):
 	def post(self):
 		user = json.loads(self.request.body)
 		result = ebModels.addUser(user, self.request.get('e'))
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
+
+class SelectionApiHandler(webapp2.RequestHandler):
+	def post(self):
+		data = json.loads(self.request.body)
+		result = ebModels.addSelection(data["selection"], data["poll"], self.request.get('e'))
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
+
+class VoteApiHandler(webapp2.RequestHandler):
+	def post(self):
+		data = json.loads(self.request.body)
+		result = ebModels.addVote(data["user"], data["selection"], data["poll"], self.request.get('e'))
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
+
+	def delete(self):
+		data = json.loads(self.request.body)
+		result = ebModels.removeVote(data["user"], data["selection"], data["poll"], self.request.get('e'))
 		output = parseEvent(result)
 		self.response.out.write(json.dumps(output))
 
@@ -88,8 +120,9 @@ class SpinnerHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', LoginHandler),
     ('/dashboard', DashboardHandler),
-    ('/event/', EventHandler),
     ('/api/event', EventApiHandler),
     ('/api/user', UserApiHandler),
+    ('/api/selection', SelectionApiHandler),
+    ('/api/vote', VoteApiHandler),
     ('/spinner', SpinnerHandler)
 ], debug=True)
