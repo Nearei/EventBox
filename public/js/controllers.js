@@ -13,6 +13,11 @@ function appCtrl ($scope, $location, ndb) {
 
 	$scope.date = {};
 
+	$scope.popular = {
+		datetime: "",
+		location: "",
+	};
+
 	$scope.mode = "loading";
 
 	//map objects
@@ -40,6 +45,7 @@ function appCtrl ($scope, $location, ndb) {
 					if ($location.search()['e']) {
 						ndb.getEvent($location.search()['e']).then(function(response) {
 							$scope.event_data = response;
+							parsePopular();
 
 							var userAdded = false;
 							for (var i = 0; i < $scope.event_data.people.length; i++) {
@@ -63,12 +69,6 @@ function appCtrl ($scope, $location, ndb) {
 							host_name: $scope.user.name,
 							host_fb_id: $scope.user.id,
 							description: "Insert Description Here",
-							datetime: moment().format(),
-							loc: {
-								lat: 43.451603,
-								lon: -80.492277,
-								name: 'Google Waterloo'
-							},
 							picture_url: '/img/event4.jpg',
 							people: [$scope.user],
 						};
@@ -195,6 +195,7 @@ function appCtrl ($scope, $location, ndb) {
 			if (poll_type == 'datetime') {
 				parseDate();
 			}
+			parsePopular();
 		});
 
 	}
@@ -211,6 +212,7 @@ function appCtrl ($scope, $location, ndb) {
 				if (poll_type == 'datetime') {
 					parseDate();
 				}
+				parsePopular();
 			});
 		} else {
 			ndb.addVote({
@@ -223,6 +225,7 @@ function appCtrl ($scope, $location, ndb) {
 				if (poll_type == 'datetime') {
 					parseDate();
 				}
+				parsePopular();
 			});
 		}
 
@@ -259,6 +262,38 @@ function appCtrl ($scope, $location, ndb) {
 			}
 		}
 		return false;
+	}
+
+	function parsePopular() {
+		// date 
+		var dates = $scope.event_data.polls[0].selections;
+		var max_index = 0;
+
+		for (var i = 1; i < dates.length; i++) {
+			if (dates[i].people.length > dates[max_index].people.length) {
+				max_index = i;
+			}
+		}
+
+		if (dates.length) {
+			$scope.popular.datetime = {
+				raw: dates[max_index].name,
+				date: moment(dates[max_index].name).format('MMMM Do'),
+				time: moment(dates[max_index].name).format('h:mm a'),
+				year: moment(dates[max_index].name).format('YYYY'),
+			}
+		} else {
+			var now = moment();
+			$scope.popular.datetime = {
+				raw: now.format(),
+				date: now.format('MMMM Do'),
+				time: now.format('h:mm a'),
+				year: now.format('YYYY'),
+			}
+		}
+
+		console.log("POPULAR: ", $scope.popular);
+
 	}
 
 
