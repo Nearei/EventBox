@@ -12,6 +12,7 @@ function appCtrl ($scope, $location, ndb) {
 	$scope.custom_polls = [];
 
 	$scope.date = {};
+	$scope.title = "";
 
 	$scope.popular = {
 		datetime: "",
@@ -75,6 +76,7 @@ function appCtrl ($scope, $location, ndb) {
 
 						ndb.addEvent($scope.event_data).then(function(response) {
 							$location.search("e", response);
+							parsePopular();
 
 							$scope.mode="view";
 						});
@@ -103,8 +105,9 @@ function appCtrl ($scope, $location, ndb) {
 
 	}
 
-	$scope.displayInfoModal = function() {
-
+	$scope.displayTitleModal = function() {
+		$scope.title = $scope.event_data.name;
+		$('#title-modal').modal('show');
 	}
 
 	$scope.displayTimeModal = function() {
@@ -122,6 +125,13 @@ function appCtrl ($scope, $location, ndb) {
 			});
 		});
 		$('#time-modal').modal('show');
+	}
+
+	$scope.saveTitle = function(title) {
+		$scope.event_data.name = title;
+		ndb.updateEvent($scope.event_data, $location.search()['e']).then(function(response) {
+			$('#title-modal').modal('hide');
+		});
 	}
 
 	$scope.displayDescriptionModal = function() {
@@ -180,6 +190,7 @@ function appCtrl ($scope, $location, ndb) {
 	$scope.removeModal = function() {
 		$('#location-modal').modal('hide');
 		$('#time-modal').modal('hide');
+		$('#title-modal').modal('hide');
 	}
 
 	$scope.addPollOption = function(poll_type, selection) {
