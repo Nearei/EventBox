@@ -19,16 +19,17 @@
 		overflow-x: hidden; 
 	}
 	body {
-		background-image:url('img/background.jpg');
-		background-repeat:no-repeat;
-		background-position:center;
+		background: url('/img/event_background.png') center center fixed;
+		background-repeat: repeat;
+		padding:0;
+		font-family:"Open Sans", sans-serif;
 	}
 	</style>
 </head>
 
 <body>
 	<div class="container-fluid">
-		<img class="logo" src="/img/logo.png">
+		<img class="logo" src="/img/logo.png" />
 		<div onclick="loginAttempt()" id="login-button" class="flip-container" ontouchstart="this.classList.toggle('hover');">
 			<a href="#" class="flipper">
 				<div class="front">
