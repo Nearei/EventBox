@@ -205,7 +205,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="poll-title">Poll</div>
+				<div class="poll-title" ng-show="date.poll.length">Poll</div>
 				<div ng-repeat="selection in date.poll" class="vote-bar" style="background-color:{{selection.color}}; width:{{selection.ratio}}%;">
 					<div href="" ng-click="vote('datetime', selection.name, selection.color)" class="vote-link"><i class="icon-thumbs-up"></i> {{selection.formatted_name}}</div>
 				</div>
@@ -230,7 +230,7 @@
 					<input type="text" ng-model="location">
 					<input type="submit" value="Change Location" ng-click="showLocation()">
 				</div>
-				<div class="poll-title">Poll</div>
+				<div class="poll-title" ng-show="date.poll.length">Poll</div>
 				<div ng-repeat="selection in locations.poll" class="vote-bar" style="background-color:{{selection.color}}; width:{{selection.ratio}}%;">
 					<div href="" ng-click="vote('location', selection.name, selection.color)" class="vote-link"><i class="icon-thumbs-up"></i> {{selection.name}}</div>
 				</div>
