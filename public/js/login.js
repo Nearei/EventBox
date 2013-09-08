@@ -26,6 +26,37 @@
 	  ref.parentNode.insertBefore(js, ref);
   }(document));
 
+function get_param(param) {
+   var search = window.location.search.substring(1);
+   var compareKeyValuePair = function(pair) {
+      var key_value = pair.split('=');
+      var decodedKey = decodeURIComponent(key_value[0]);
+      var decodedValue = decodeURIComponent(key_value[1]);
+      if(decodedKey == param) return decodedValue;
+      return null;
+   };
+
+   var comparisonResult = null;
+
+   if(search.indexOf('&') > -1) {
+      var params = search.split('&');
+      for(var i = 0; i < params.length; i++) {
+         comparisonResult = compareKeyValuePair(params[i]); 
+         if(comparisonResult !== null) {
+            break;
+         }
+      }
+   } else {
+      comparisonResult = compareKeyValuePair(search);
+   }
+
+   return comparisonResult;
+}
   function loginSuccess (){
-	window.location.href = "event/";
+  	var event_param = get_param('e');
+  	if (event_param) {
+		window.location.href = "event/#?e=" + event_param;
+  	} else {
+		window.location.href = "event/";
+  	}
   }

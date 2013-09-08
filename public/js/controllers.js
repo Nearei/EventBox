@@ -61,7 +61,7 @@ function appCtrl ($scope, $location, ndb) {
 							}
 							if (!userAdded) {
 								ndb.addUser($scope.user, $location.search()['e']).then(function(user_response) {
-									$scope.event_data.people.append($scope.user);
+									$scope.event_data.people.push($scope.user);
 									$scope.mode = "view";
 									$scope.share_link = $location.absUrl();
 								});
@@ -98,7 +98,11 @@ function appCtrl ($scope, $location, ndb) {
 				});
 			} else {
 				console.log('User cancelled login or did not fully authorize.');
-				window.location.assign("/");
+				if ($location.search()['e']) {
+					window.location.assign("/?e=" + $location.search()['e']);
+				} else {
+					window.location.assign("/");
+				}
 			}
 
 		});
