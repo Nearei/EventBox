@@ -240,9 +240,9 @@
 							<!-- event header card -->
 							<li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
 								<div class="event-card" style="opacity:0.3;">
-									<div id="event-header-title">HS Reunion</div>
-									<div id="event-header-host">Kevin Jeong</div>
-									<a href="#title-modal" role="button" class="btn" data-toggle="modal">
+									<div id="event-header-title">{{event_data.name}}</div>
+									<div id="event-header-host">Host: {{event_data.host_name}}</div>
+									<a role="button" class="btn" ng-click="displayTitleModal()">
 						    			<i class="icon-edit"></i>
 						    		</a>
 								</div>
@@ -508,7 +508,7 @@
 	</div>
 	
 	<!-- title and host modal -->
-	<div class="modal hide fade" id="title-modal">
+	<div class="modal hide" id="title-modal">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			<h3>Title and Host</h3>
@@ -517,20 +517,20 @@
 		<div class="modal-body">
 			<div id="title-specific">
 				<h1>Title:</h1>
-				<textarea rows="2" style="resize:none;width:97%;font-size:20pt;text-align:center" id="textarea">Let's go to Kevin's house</textarea>
+				<textarea rows="2" style="resize:none;width:97%;font-size:20pt;text-align:center" id="textarea" ng-model="title"></textarea>
 				<br />
 				<br />
 				<h1>Host:</h1>
 				<img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
-				<h4>Kevin Jeong</h4>
+				<h4>{{event_data.host_name}}</h4>
 			</div>
 			<h1 id="poll-title-3"></h1>
 			<div id="poll-3" style="height:80%;width:80%"></div>
 		</div>
 
 		<div class="modal-footer">
-			<a href="#" class="btn">Close</a>
-			<a href="#" class="btn btn-primary">Save changes</a>
+			<a href="" ng-click="removeModal()" class="btn">Close</a>
+			<a href="" class="btn btn-primary" ng-click="saveTitle(title)">Save changes</a>
 		</div>
 	</div>
 	
