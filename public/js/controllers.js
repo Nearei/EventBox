@@ -46,7 +46,6 @@ function appCtrl ($scope, $location, ndb) {
 					if ($location.search()['e']) {
 						ndb.getEvent($location.search()['e']).then(function(response) {
 							$scope.event_data = response;
-							parseEvent($scope.event_data);
 
 							var userAdded = false;
 							for (var i = 0; i < $scope.event_data.people.length; i++) {
@@ -191,7 +190,7 @@ function appCtrl ($scope, $location, ndb) {
 		if ($scope.date.submit_datetime) {
 			$scope.event_data.datetime = moment($scope.date.submit_datetime + $scope.date.formatted_time).format();
 			parseEvent($scope.event_data);
-			ndb.updateEvent($scope.event_data);
+			ndb.updateEvent($scope.event_data, $location.search()['e']);
 		}
 
 		$('#time-modal').modal('hide');

@@ -32,7 +32,7 @@ angular.module('services', []).
 		}
 
 		this.updateEvent = function(event, event_key) {
-			return sendRequest('/api/event?e=' + event_key, 'PUT', data);
+			return sendRequest('/api/event?e=' + event_key, 'PUT', event);
 		}
 
 

@@ -29,14 +29,9 @@ def parseEvent(result):
 		"host_name": result.host_name,
 		"host_fb_id": result.host_fb_id,
 		"description": result.description,
-		"datetime": result.datetime,
-		"loc": {
-			"lat": result.location.lat,
-			"lon": result.location.lon,
-			"name": result.location.name
-		},
 		"picture_url": result.picture_url,
-		"people": []
+		"people": [],
+		"polls": []
 	};
 
 	for user in result.people:
@@ -44,6 +39,22 @@ def parseEvent(result):
 			"name": user.name,
 			"id": user.fb_id
 			})
+
+	for poll in result.polls:
+		new_poll = {}
+		new_poll["name"] = poll.name
+		new_poll["selections"] = []
+		for selection in poll.selections:
+			new_selection = {}
+			new_selection["name"] = selection.name
+			new_selection["people"] = []
+			for user in selection.people:
+				new_selection["people"].append({
+					"name": user.name,
+					"id": user.fb_id
+				})
+			new_poll["selections"].append(new_selection)
+		output["polls"].append(new_poll)
 
 	return output
 
@@ -81,6 +92,23 @@ class UserApiHandler(webapp2.RequestHandler):
 		output = parseEvent(result)
 		self.response.out.write(json.dumps(output))
 
+class SelectionApiHandler(webapp2.RequestHandler):
+	def post(self):
+		data = json.loads(self.request.body)
+		result = ebModels.addSelection(data["selection"], data["poll"], self.request.get('e'))
+		self.response.out.write(result)
+
+class VoteApiHandler(webapp2.RequestHandler):
+	def post(self):
+		data = json.loads(self.request.body)
+		result = ebModels.addSelection(date["user"], data["selection"], data["poll"], self.request.get('e'))
+		self.response.out.write(result)
+
+	def delete(self):
+		data = json.loads(self.request.body)
+		result = ebModels.addSelection(date["user"], data["selection"], data["poll"], self.request.get('e'))
+		self.response.out.write(result)
+
 class SpinnerHandler(webapp2.RequestHandler):
     def get(self):
 	    path = os.path.join(os.path.dirname(__file__), 'public/spinner.html')
@@ -91,5 +119,7 @@ app = webapp2.WSGIApplication([
     ('/dashboard', DashboardHandler),
     ('/api/event', EventApiHandler),
     ('/api/user', UserApiHandler),
+    ('/api/selection', SelectionApiHandler),
+    ('/api/vote', VoteApiHandler),
     ('/spinner', SpinnerHandler)
 ], debug=True)
