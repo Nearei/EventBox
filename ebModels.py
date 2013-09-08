@@ -43,6 +43,30 @@ def addEvent(event):
 
 	return key_string
 
+def editEvent(event, url_key):
+	event = ndb.Key(urlsafe=url_key)
+	event = event.get()
+
+
+	event.name = event["name"]
+	event.host_name = event["host_name"]
+	event.host_fb_id = event["host_fb_id"]
+	event.datetime = event["datetime"]
+	event.description = event["description"]
+	event.location = Location(lat = event["loc"]["lat"]
+						   lon = event["loc"]["lon"]
+						   name = event["loc"]["name"])
+	event.picture_url = event["picture_url"]
+	event.people = []
+
+	for (person in event["people"]):
+		event.people.append(User(name = person["name"],
+					   		     fb_id = person["id"]))
+
+	key = event.put();
+	return event
+	
+
 def getEvent(url_key):
 	event = ndb.Key(urlsafe=url_key)
 	return event.get()

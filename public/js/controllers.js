@@ -5,10 +5,13 @@
 function appCtrl ($scope, $location, ndb) {
 
 	$scope.user = {};
+	$scope.share_link = $location.absUrl();
 
 	$scope.time_poll = [];
 	$scope.location_poll = [];
 	$scope.custom_polls = [];
+
+	$scope.date = {};
 
 	$scope.mode = "loading";
 
@@ -18,6 +21,12 @@ function appCtrl ($scope, $location, ndb) {
 
 
 	$scope.event_data = {};
+
+	function parseEvent(response) {
+		$scope.event_data.formatted_datetime = moment(response.datetime).format('MM/DD/YYYY h:mm:ss A');
+		$scope.event_data.formatted_date = moment(response.datetime).format('MMMM Do, YYYY');
+		$scope.event_data.formatted_time = moment(response.datetime).format('h:mm A');
+	}
 
 	window.fbAsyncInit = function() {
 		FB.init({
@@ -37,8 +46,7 @@ function appCtrl ($scope, $location, ndb) {
 					if ($location.search()['e']) {
 						ndb.getEvent($location.search()['e']).then(function(response) {
 							$scope.event_data = response;
-							$scope.event_data.formatted_datetime = moment($scope.event_data.datetime).format('MMMM Do, YYYY\n h:mm a');
-							console.log($scope.event_data);
+							parseEvent($scope.event_data);
 
 							var userAdded = false;
 							for (var i = 0; i < $scope.event_data.people.length; i++) {
@@ -107,6 +115,22 @@ function appCtrl ($scope, $location, ndb) {
 	}
 
 	$scope.displayTimeModal = function() {
+		$scope.date = {
+			formatted_datetime: $scope.event_data.formatted_datetime,
+			formatted_date: $scope.event_data.formatted_date,
+			formatted_time: $scope.event_data.formatted_time,
+		}
+
+		$('#date-time-picker').datetimepicker({
+			language: 'en',
+			pick12HourFormat: true
+		}).on('changeDate', function(ev) {
+			$scope.$apply(function() {
+				$scope.date.submit_datetime = moment(ev.date.valueOf() + 8*60*60*1000).format();
+				$scope.date.formatted_date = moment(ev.date.valueOf() + 4*60*60*1000).format('MMMM Do, YYYY');
+				$scope.date.formatted_time = moment(ev.date.valueOf() + 4*60*60*1000).format('h:mm A');
+			});
+		});
 		$('#time-modal').modal('show');
 	}
 
@@ -147,10 +171,10 @@ function appCtrl ($scope, $location, ndb) {
 			    $scope.markersArray[i].setMap(null);
 			  }
 			  $scope.markersArray = [];
-			    map.setCenter(results[0].geometry.location);
+			    $scope.map.setCenter(results[0].geometry.location);
 				var marker = new google.maps.Marker({
 					position: results[0].geometry.location,
-					map: map,
+					map: $scope.map,
 					title: 'Your Location'
 				});
 				$scope.markersArray.push(marker);
@@ -161,6 +185,16 @@ function appCtrl ($scope, $location, ndb) {
 		});
 
 		// add $scope.event_data.loc.name to location poll
+	}
+
+	$scope.submitDateChange = function() {
+		if ($scope.date.submit_datetime) {
+			$scope.event_data.datetime = moment($scope.date.submit_datetime + $scope.date.formatted_time).format();
+			parseEvent($scope.event_data);
+			ndb.updateEvent($scope.event_data);
+		}
+
+		$('#time-modal').modal('hide');
 	}
 
 	$scope.removeModal = function() {

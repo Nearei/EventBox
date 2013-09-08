@@ -57,11 +57,6 @@ class DashboardHandler(webapp2.RequestHandler):
 	    path = os.path.join(os.path.dirname(__file__), 'public/dashboard.html')
 	    self.response.out.write(template.render(path, {}))
 
-class EventHandler(webapp2.RequestHandler):
-    def get(self):
-	    path = os.path.join(os.path.dirname(__file__), 'public/event.html')
-	    self.response.out.write(template.render(path, {}))
-
 class EventApiHandler(webapp2.RequestHandler):
 	def get(self):
 		result = ebModels.getEvent(self.request.get('e'))
@@ -72,6 +67,12 @@ class EventApiHandler(webapp2.RequestHandler):
 		data = json.loads(self.request.body)
 		result = ebModels.addEvent(data)
 		self.response.out.write(result)
+
+	def put(self):
+		data = json.loads(self.request.body)
+		result = ebModels.editEvent(data, self.request.get('e'))
+		output = parseEvent(result)
+		self.response.out.write(json.dumps(output))
 
 class UserApiHandler(webapp2.RequestHandler):
 	def post(self):
@@ -88,7 +89,6 @@ class SpinnerHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', LoginHandler),
     ('/dashboard', DashboardHandler),
-    ('/event/', EventHandler),
     ('/api/event', EventApiHandler),
     ('/api/user', UserApiHandler),
     ('/spinner', SpinnerHandler)

@@ -31,6 +31,11 @@ angular.module('services', []).
 			return sendRequest('/api/event?e=' + event_key, 'GET');
 		}
 
+		this.updateEvent = function(event, event_key) {
+			return sendRequest('/api/event?e=' + event_key, 'PUT', data);
+		}
+
+
 		this.addUser = function(user, event_key) {
 			return sendRequest('/api/user?e=' + event_key, 'POST', user);
 		}
