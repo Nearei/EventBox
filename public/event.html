@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="EventBox">
+<html lang="en">
 
 <head>
 	<meta charset="utf-8">
@@ -18,11 +18,9 @@
 	<script type="text/javascript" src="/js/controllers.js"></script>
 
 	<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/plugins/moment.min.js"></script>
 	<script type="text/javascript" src="/plugins/ducksboard-gridster.js-ef626f8/dist/jquery.gridster.min.js"></script>
 	<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-
 
 	<style type="text/css">
 		html {
@@ -75,14 +73,40 @@
 			padding:0;
 			font-family:"Open Sans", sans-serif;
 		}
+		#event-header-title {
+			color:white;
+			position:absolute;
+			top:50px;
+			left:25px;
+			font-size:50px;
+			font-weight:bold;
+		}
+		#event-header-host {
+			color:white;
+			position:absolute;
+			bottom:50px;
+			right:25px;
+			font-size:25px;
+			font-variant:small-caps;
+		}
+		#event-attendance {
+			margin:auto;
+			position:absolute;
+			top:0;
+			bottom:0;
+			left:0;
+			right:0;
+			width:250px;
+			height:250px;
+		}
 		.event-card {
-			background: url('/img/wild_flowers.png') center center;
-			background-repeat: repeat;
+			background-color:#008B8B;
 			-webkit-border-radius: 4px;
 			-moz-border-radius: 4px;
 			border-radius: 4px;
 			width:100%;
 			height:100%;
+			position:relative;
 		}
 		.event-card a {
 			position:absolute;
@@ -98,12 +122,19 @@
 			background-repeat: repeat;
 			margin:auto;
 			position:absolute;
-			top:35px;
+			top:0;
 			bottom:0;
 			left:0;
 			right:0;
 			max-width:1300px;
 			max-height:520px;
+		}
+		.profilepic {
+			max-height:100%;
+			max-width:98%;
+		}
+		.row {
+			height:106px;
 		}
 	</style>
 
@@ -119,7 +150,7 @@
 	</script>
 </head>
 
-<body ng-controller="appCtrl">
+<body>
 	<!-- event page header -->
 	<header>
 		<div id="event-page-header-content">
@@ -140,8 +171,9 @@
 					<div class="gridster">
 						<ul>
 							<li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
-								<div id="event-header" class="event-card">
-									the authors classified integrable homomorphisms. It is essential to consider that theta may be non-countably negative. Recent interest in Steiner lines	has centered on examining triangles. This reduces the results of [34] to the general theory. It is not yet known whether every algebraically partial, singular manifold is meromorphic, although [26] does address the issue of solvability. fdsfdsfds fdsfds fdsfds fdsfdsf sdfdsf sdfsdf
+								<div class="event-card" style="opacity:0.3;">
+									<div id="event-header-title">PennApps 2013</div>
+									<div id="event-header-host">University of Pennsylvania</div>
 								</div>
 							</li>
 						    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
@@ -164,15 +196,30 @@
 						    	</div>
 						    </li>
 						    <li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
-						    	<div id="event-description" class="event-card">
-									<a href="#desc-modal" role="button" class="btn" data-toggle="modal">
+						    	<div class="event-card" style="background-image:url(/img/event_background.png)">
+						    		<div id="event-attendance">
+						    			<div class="row-fluid" style="width:inherit;height:33.3333%">
+						    				<div class="span12" style="background-color:yellow;height:100%;"></div>
+						    			</div>
+						    			<div class="row-fluid" style="width:inherit;height:33.3333%">
+						    				<div class="span4 offset0" style="background-color:red;height:100%;"></div>
+						    				<div class="span4 offset0" style="background-color:red;height:100%;"></div>
+						    				<div class="span4 offset0" style="background-color:red;height:100%;"></div>
+						    			</div>
+						    			<div class="row-fluid" style="width:inherit;height:33.3333%">
+						    				<div class="span4 offset0" style="background-color:orange;height:100%;"></div>
+						    				<div class="span4 offset0" style="background-color:orange;height:100%;"></div>
+						    				<div class="span4 offset0" style="background-color:orange;height:100%;"></div>
+						    			</div>
+						    		</div>
+									<a href="#attendance-modal" role="button" class="btn" data-toggle="modal">
 						    			<i class="icon-edit"></i>
 						    		</a>
 						    	</div>
 						    </li>
 						    <li data-row="2" data-col="5" data-sizex="1" data-sizey="1">
-						    	<div id="event-attendance" class="event-card">
-									<a href="#attendance-modal" role="button" class="btn" data-toggle="modal">
+						    	<div id="event-description" class="event-card">
+									<a href="#desc-modal" role="button" class="btn" data-toggle="modal">
 						    			<i class="icon-edit"></i>
 						    		</a>
 						    	</div>
@@ -274,22 +321,68 @@
 
 		<div class="modal-body">
 			<div id="attendance-specific">
-				<table>
-				<tr>
-					<td style="width:25%">
-						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg" alt="Kevin Jeong">
+				<h1>Friends</h1>
+				<table style="width:100%">
+				<tr class="row">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg" alt="Kevin Jeong">
 					</td>
-					<td style="width:25%">
-						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c66.66.828.828/s160x160/311610_10151453530316016_215247938_n.jpg" alt="Tim Pei">
 					</td>
-					<td style="width:25%">
-						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/c45.45.568.568/s160x160/46212_10151317981601285_298166409_n.jpg" alt="Carol Yin">
 					</td>
-					<td style="width:25%">
-						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/c113.33.414.414/s160x160/1184832_10151853567272733_2121871192_n.jpg" alt="Roni Luo">
 					</td>
-				<tr>
+					<td style="width:20%;text-align:center">
+						<font color="#d3d3d3">Kevin Jeong</font><br/>
+						<font color="#d3d3d3">Tim Pei</font><br/>
+						<font color="#d3d3d3">Carol Yin</font><br/>
+						<font color="#000000">Roni Luo</font>
+					</td>
+				</tr>
+				<tr class="row">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash4/c66.66.828.828/s160x160/3557_10152705387800468_1744872323_n.jpg" alt="Jacky Li">
+					</td>
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/c132.0.828.828/s160x160/533899_10150283928364997_317612907_n.jpg" alt="Kevin Lee">
+					</td>
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c337.43.511.511/s160x160/972127_10151506660968920_199023210_n.jpg" alt="Jenny Li">
+					</td>
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc1/c0.225.414.414/s160x160/602256_10152221087395478_2112740665_n.jpg" alt="Jane Li">
+					</td>
+					<td style="width:20%;text-align:center">
+						<font color="#d3d3d3">Jacky Li</font><br/>
+						<font color="#d3d3d3">Kevin Lee</font><br/>
+						<font color="#d3d3d3">Jenny Li</font><br/>
+						<font color="#d3d3d3">Jane Li</font>
+					</td>
+				</tr>
+				<tr class="row">
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/c0.91.546.546/s160x160/1014456_10151735614520549_163015326_n.jpg" alt="Sarah Yenny Yu">
+					</td>
+					<td style="width:20%">
+						<img class="profilepic" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/c203.44.555.555/s160x160/1146740_10153113989615462_733754392_n.jpg" alt="Paul Jin Yoon">
+					</td>
+					<td style="width:20%">
+					</td>
+					<td style="width:20%">
+					</td>
+					<td style="width:20%;text-align:center">
+						<font color="#d3d3d3">Sarah Yenny Yu</font><br/>
+						<font color="#d3d3d3">Paul Jin Yoon</font><br/>
+						<font color="#d3d3d3"></font><br/>
+						<font color="#d3d3d3"></font>
+					</td>
+				</tr>
 				</table>
+				
 			</div>
 			<h1 id="poll-title-3"></h1>
 			<div id="poll-3" style="height:80%;width:80%"></div>
