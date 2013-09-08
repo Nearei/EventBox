@@ -164,10 +164,16 @@
 						    </li>
 						    <li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
 						    	<div id="event-description" class="event-card">
+									<a href="#desc-modal" role="button" class="btn" data-toggle="modal">
+						    			<i class="icon-edit"></i>
+						    		</a>
 						    	</div>
 						    </li>
 						    <li data-row="2" data-col="5" data-sizex="1" data-sizey="1">
 						    	<div id="event-attendance" class="event-card">
+									<a href="#attendance-modal" role="button" class="btn" data-toggle="modal">
+						    			<i class="icon-edit"></i>
+						    		</a>
 						    	</div>
 						    </li>
 						</ul>
@@ -185,12 +191,11 @@
 		</div>
 
 		<div class="modal-body">
-			<div id="modal-specific" style='height:100%'>
+			<div id="location-specific" style='height:100%'>
 				<div id='map-canvas' style='height:700px;width=100%'></div>
-				<form name="input" onSubmit="showLocation();">
-					<input type="text" id="place">
-					<input type="submit" value="Change Location">
-				</form>
+				<input type="text" id="place">
+				<input type="submit" value="Change Location" onClick="showLocation();">
+				<input type="submit" value="Add to Poll" onClick="addToPoll();">
 			</div>
 			<h1 id="poll-title-1"></h1>
 			<div id="poll-1" style="height:80%;width:80%"></div>
@@ -210,7 +215,7 @@
 		</div>
 
 		<div class="modal-body">
-			<div id="modal-specific">
+			<div id="time-specific">
 				<h1 id="current-time"></h1>
 				<div class="well">
 					<div id="date-time-picker" class="input-append">
@@ -231,6 +236,70 @@
 		</div>
 	</div>
 
+	<!-- description modal -->
+	<div class="modal hide fade" id="desc-modal">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Modal header</h3>
+		</div>
+
+		<div class="modal-body">
+			<div id="desc-specific">
+				<div style="overflow:auto;height:10em;width:97%;display:inline" id="paragraph">
+					Tfksas joafjfiweo anjkfdlsanodsaj ifodsajfldna fldja ifodsaj kfldsnaf kldsa fklda
+				</div>
+				<textarea rows="10" style="resize:none;width:97%;display:none" id="textarea">
+					Tfksas joafjfiweo anjkfdlsanodsaj ifodsajfldna fldja ifodsaj kfldsnaf kldsa fklda
+				</textarea>
+				<br />
+				<input type="submit" style="display:inline" value="edit">
+			</div>
+			<h1 id="poll-title-3"></h1>
+			<div id="poll-3" style="height:80%;width:80%"></div>
+		</div>
+
+		<div class="modal-footer">
+			<a href="#" class="btn">Close</a>
+			<a href="#" class="btn btn-primary">Save changes</a>
+		</div>
+	</div>
+
+	<!-- attendance modal -->
+	<div class="modal hide fade" id="attendance-modal">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Modal header</h3>
+		</div>
+
+		<div class="modal-body">
+			<div id="attendance-specific">
+				<table>
+				<tr>
+					<td style="width:25%">
+						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg" alt="Kevin Jeong">
+					</td>
+					<td style="width:25%">
+						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
+					</td>
+					<td style="width:25%">
+						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
+					</td>
+					<td style="width:25%">
+						<img style="height:50%;width:80%" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/c0.115.455.455/s160x160/970810_10200238374236570_1105487700_n.jpg">
+					</td>
+				<tr>
+				</table>
+			</div>
+			<h1 id="poll-title-3"></h1>
+			<div id="poll-3" style="height:80%;width:80%"></div>
+		</div>
+
+		<div class="modal-footer">
+			<a href="#" class="btn">Close</a>
+			<a href="#" class="btn btn-primary">Save changes</a>
+		</div>
+	</div>
+	
 	<script src = "/js/mockeventmain.js"></script>
 	<script src = "/js/poll.js"></script>
 	<script src = "/js/modal.js"></script>

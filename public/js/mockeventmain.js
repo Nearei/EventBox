@@ -3,6 +3,7 @@ var response =
 	events : [
 		{
 			name: 'Dancing with the Stars',
+			description: 'Bill Nye will be dancing on the dancing with the stars afkdlsankdflsankflsenqjiowenf ldsnfkla;sn ;sdnafjdaio;wenkfa;nsdfkl sankfdlsa jfdaj fdklsa;',
 			hostname: 'Bill Nye',
 			hostid: '38457270',
 			id: '00001',
