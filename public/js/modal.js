@@ -54,7 +54,6 @@ function clearOverlays() {
 }
 
 function addToPoll(){
-	console.log('sup');
 	var done = false;
 	for (var i = 0;i<mockdata.selections.length&&!done;i++){
 		if (mockdata.selections[i].name==resultChosen.name){
@@ -64,7 +63,6 @@ function addToPoll(){
 	}
 	if (!done){
 		mockdata.selections.push({name:resultChosen.name,votes:1});
-		console.log('added');
 	}
 	mockdata.selections[0].votes++;
 	pollrefresh();
